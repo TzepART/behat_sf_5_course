@@ -1,5 +1,5 @@
 app.db
-
+.env
 
 ###> symfony/framework-bundle ###
 /.env.local

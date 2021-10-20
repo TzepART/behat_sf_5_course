@@ -1,7 +1,7 @@
 <?php
 
-use AppBundle\Entity\Product;
-use AppBundle\Entity\User;
+use App\Entity\Product;
+use App\Entity\User;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
@@ -58,7 +58,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      */
     public function thereIsAnAdminUserWithPassword($username, $password)
     {
-        $user = new \AppBundle\Entity\User();
+        $user = new \App\Entity\User();
         $user->setUsername($username);
         $user->setPlainPassword($password);
         $user->setRoles(array('ROLE_ADMIN'));

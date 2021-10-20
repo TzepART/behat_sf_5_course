@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductAdminController extends AbstractController
@@ -12,7 +13,7 @@ class ProductAdminController extends AbstractController
     /**
      * @Route("/admin/products", name="product_list")
      */
-    public function listAction()
+    public function list(): Response
     {
         $products = $this->getDoctrine()
             ->getRepository(Product::class)
@@ -26,7 +27,7 @@ class ProductAdminController extends AbstractController
     /**
      * @Route("/admin/products/new", name="product_new")
      */
-    public function newAction(Request $request)
+    public function new(Request $request): Response
     {
         if ($request->isMethod('POST')) {
             $this->addFlash('success', 'Product created FTW!');
@@ -50,7 +51,7 @@ class ProductAdminController extends AbstractController
     /**
      * @Route("/admin/products/delete/{id}", name="product_delete")
      */
-    public function deleteAction(Product $product)
+    public function delete(Product $product): Response
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($product);

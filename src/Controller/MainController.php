@@ -2,38 +2,29 @@
 
 namespace App\Controller;
 
-use App\Entity\Product;
+use App\Doctrine\SchemaManager;
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class MainController extends AbstractController
 {
-    /**
-     * @Route("/", name="homepage")
-     */
-    public function homepageAction()
+    public function homepage(ProductRepository $productRepository): Response
     {
-        $products = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->search('');
+        $products = $productRepository->findAll();
 
         return $this->render('main/homepage.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'search' => null,
         ]);
     }
 
-    /**
-     * @Route("/search", name="product_search")
-     */
-    public function searchAction(Request $request)
+    public function search(Request $request, ProductRepository $productRepository): Response
     {
         $search = $request->query->get('searchTerm');
-
-        $products = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->search($search);
+        $products = $productRepository->search($search);
 
         return $this->render('main/homepage.html.twig', [
             'products' => $products,
@@ -41,21 +32,13 @@ class MainController extends AbstractController
         ]);
     }
 
-
-    /**
-     * @Route("/admin", name="admin")
-     */
-    public function adminAction()
+    public function admin(): Response
     {
         return $this->render('main/admin.html.twig');
     }
 
-    /**
-     * @Route("/_db/rebuild", name="db_rebuild")
-     */
-    public function dbRebuildAction()
+    public function dbRebuild(SchemaManager $schemaManager): Response
     {
-        $schemaManager = $this->get('schema_manager');
         $schemaManager->rebuildSchema();
         $schemaManager->loadFixtures();
 

@@ -1,3 +1,20 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+homepage:
+    path: /
+    controller: App\Controller\MainController::homepage
+
+admin:
+    path: /
+    controller: App\Controller\MainController::admin
+
+product_search:
+    path: /
+    controller: App\Controller\MainController::search
+
+db_rebuild:
+    path: /
+    controller: App\Controller\MainController::dbRebuild
+
+login:
+    path: /
+    controller: App\Controller\SecurityController::login
+

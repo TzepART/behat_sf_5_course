@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SecurityController extends AbstractController
@@ -10,7 +11,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="login")
      */
-    public function loginAction()
+    public function login(): Response
     {
         $tools = $this->get('security.authentication_utils');
 
@@ -22,7 +23,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/admin/login_check", name="admin_login_check")
      */
-    public function loginCheckAction()
+    public function loginCheck()
     {
 
     }
@@ -30,7 +31,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/admin/logout", name="admin_logout")
      */
-    public function logoutAction()
+    public function logout()
     {
 
     }

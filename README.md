@@ -40,7 +40,7 @@ This will create - and populate - an `app/app.db` file.
 4. Start up the built-in PHP web server:
 
 ```bash
-php app/console server:run
+php ./bin/console server:run
 ```
 
 Then find the site at http://localhost:8000.
