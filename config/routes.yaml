@@ -3,18 +3,39 @@ homepage:
     controller: App\Controller\MainController::homepage
 
 admin:
-    path: /
+    path: /admin
     controller: App\Controller\MainController::admin
 
 product_search:
-    path: /
+    path: /search
     controller: App\Controller\MainController::search
 
 db_rebuild:
-    path: /
+    path: /dbRebuild
     controller: App\Controller\MainController::dbRebuild
 
+
+product_list:
+    path: /admin/products
+    controller: App\Controller\ProductAdminController::list
+
+product_new:
+    path: /admin/products/new
+    controller: App\Controller\ProductAdminController::new
+
+product_delete:
+    path: /admin/products/delete/{id}
+    controller: App\Controller\ProductAdminController::delete
+
 login:
-    path: /
+    path: /login
     controller: App\Controller\SecurityController::login
+
+admin_login_check:
+    path: /admin/login_check
+    controller: App\Controller\SecurityController::loginCheck
+
+admin_logout:
+    path: /admin/logout
+    controller: App\Controller\SecurityController::logout
 

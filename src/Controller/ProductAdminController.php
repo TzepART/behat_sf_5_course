@@ -1,33 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class ProductAdminController extends AbstractController
 {
-    /**
-     * @Route("/admin/products", name="product_list")
-     */
-    public function list(): Response
+    public function list(ProductRepository $productRepository): Response
     {
-        $products = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->findAll();
+        $products = $productRepository->findAll();
 
         return $this->render('product/list.html.twig', [
             'products' => $products
         ]);
     }
 
-    /**
-     * @Route("/admin/products/new", name="product_new")
-     */
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
         if ($request->isMethod('POST')) {
             $this->addFlash('success', 'Product created FTW!');
@@ -38,7 +33,6 @@ class ProductAdminController extends AbstractController
             $product->setPrice($request->get('price'));
             $product->setAuthor($this->getUser());
 
-            $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
 
@@ -48,12 +42,8 @@ class ProductAdminController extends AbstractController
         return $this->render('product/new.html.twig');
     }
 
-    /**
-     * @Route("/admin/products/delete/{id}", name="product_delete")
-     */
-    public function delete(Product $product): Response
+    public function delete(Product $product, EntityManagerInterface $em): Response
     {
-        $em = $this->getDoctrine()->getManager();
         $em->remove($product);
         $em->flush();
 

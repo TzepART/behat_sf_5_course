@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Role;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="user")
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -36,7 +36,7 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $roles = ['ROLE_USER'];
 
@@ -55,7 +55,7 @@ class User implements UserInterface
         return $this->roles;
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }

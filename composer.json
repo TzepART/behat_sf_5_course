@@ -23,6 +23,11 @@
     },
     "require-dev": {
         "behat/behat": "^3.9",
+        "behat/mink-selenium2-driver": "^1.5",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "friends-of-behat/mink-browserkit-driver": "^1.5",
+        "friends-of-behat/mink-extension": "^2.5",
+        "friends-of-behat/symfony-extension": "^2.2",
         "phpunit/phpunit": "^9.5",
         "symfony/debug-bundle": "5.3.*",
         "symfony/maker-bundle": "^1.34"

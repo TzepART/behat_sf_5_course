@@ -1,26 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\Tests\Behat;
+
 use App\Entity\Product;
 use App\Entity\User;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
-
-require_once __DIR__.'/../../vendor/phpunit/phpunit/src/Framework/Assert/Functions.php';
+use Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Assert;
 
 /**
  * Defines application features from the specific context.
  */
 class FeatureContext extends RawMinkContext implements Context, SnippetAcceptingContext
 {
-    use \Behat\Symfony2Extension\Context\KernelDictionary;
-
     private $currentUser;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    /**
+     * @var SymfonyFixturesLoader
+     */
+    private $symfonyFixturesLoader;
 
     /**
      * Initializes context.
@@ -29,8 +39,10 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct()
+    public function __construct(EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
+        $this->symfonyFixturesLoader = new Loader();
     }
 
     /**
@@ -38,8 +50,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      */
     public function clearData()
     {
-        $purger = new ORMPurger($this->getContainer()->get('doctrine')->getManager());
-        $purger->purge();
+        $this->entityManager->clear(Product::class);
     }
 
     /**
@@ -47,10 +58,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      */
     public function loadFixtures()
     {
-        $loader = new ContainerAwareLoader($this->getContainer());
-        $loader->loadFromDirectory(__DIR__.'/../../src/AppBundle/DataFixtures');
-        $executor = new ORMExecutor($this->getEntityManager());
-        $executor->execute($loader->getFixtures(), true);
+        $this->symfonyFixturesLoader->loadFromDirectory(__DIR__.'/../../src/DataFixtures');
     }
 
     /**
@@ -58,12 +66,13 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      */
     public function thereIsAnAdminUserWithPassword($username, $password)
     {
-        $user = new \App\Entity\User();
+        $user = new User();
         $user->setUsername($username);
         $user->setPlainPassword($password);
-        $user->setRoles(array('ROLE_ADMIN'));
+        $user->setPassword($password);
+        $user->setRoles(['ROLE_ADMIN']);
 
-        $em = $this->getContainer()->get('doctrine')->getManager();
+        $em = $this->getEntityManager();
         $em->persist($user);
         $em->flush();
 
@@ -136,7 +145,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     {
         $row = $this->findRowByText($rowText);
 
-        assertContains('fa-check', $row->getHtml(), 'Could not find the fa-check element in the row!');
+        Assert::assertStringContainsString('fa-check', $row->getHtml(), 'Could not find the fa-check element in the row!');
     }
 
     /**
@@ -161,9 +170,8 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     public function iShouldSeeProducts($count)
     {
         $table = $this->getPage()->find('css', 'table.table');
-        assertNotNull($table, 'Cannot find a table!');
-
-        assertCount(intval($count), $table->findAll('css', 'tbody tr'));
+        Assert::assertNotNull($table, 'Cannot find a table!');
+        Assert::assertCount(intval($count), $table->findAll('css', 'tbody tr'));
     }
 
     /**
@@ -211,7 +219,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     public function iSaveAScreenshotIn($filename)
     {
         sleep(1);
-        $this->saveScreenshot($filename, __DIR__.'/../..');
+        $this->saveScreenshot($filename, __DIR__ . '/../behat_sf_5_course');
     }
 
     /**
@@ -223,11 +231,11 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManager
+     * @return EntityManagerInterface
      */
-    private function getEntityManager()
+    private function getEntityManager(): EntityManagerInterface
     {
-        return $this->getContainer()->get('doctrine.orm.entity_manager');
+        return $this->entityManager;
     }
 
     private function createProducts($count, User $author = null)
@@ -255,7 +263,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     private function findRowByText($rowText)
     {
         $row = $this->getPage()->find('css', sprintf('table tr:contains("%s")', $rowText));
-        assertNotNull($row, 'Cannot find a table row with this text!');
+        Assert::assertNotNull($row, 'Cannot find a table row with this text!');
 
         return $row;
     }

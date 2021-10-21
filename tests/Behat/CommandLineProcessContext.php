@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\Tests\Behat;
+
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
+use PHPUnit\Framework\Assert;
 
-require_once __DIR__.'/../../vendor/phpunit/phpunit/src/Framework/Assert/Functions.php';
-
-class CommandLineProcessContext implements Context, SnippetAcceptingContext
+class CommandLineProcessContext implements Context
 {
     private $output;
 
@@ -32,7 +32,7 @@ class CommandLineProcessContext implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeInTheOutput($string)
     {
-        assertContains(
+        Assert::assertStringContainsString(
             $string,
             $this->output,
             sprintf('Did not see "%s" in output "%s"', $string, $this->output)
