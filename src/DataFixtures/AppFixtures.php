@@ -6,9 +6,17 @@ use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    private $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     public function load(ObjectManager $manager)
     {
         $defaultAuthor = $this->loadUsers($manager);
@@ -55,8 +63,14 @@ class AppFixtures extends Fixture
 
         $user = new User();
         $user->setUsername('admin');
-        $user->setPlainPassword('admin');
-        $user->setRoles(array('ROLE_ADMIN'));
+        $plaintextPassword = 'admin';
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $user,
+            $plaintextPassword
+        );
+        $user->setPassword($hashedPassword);
+        $user->setPlainPassword($plaintextPassword);
+        $user->setRoles(['ROLE_ADMIN']);
 
         $em->persist($user);
         $em->flush();

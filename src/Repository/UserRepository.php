@@ -18,7 +18,7 @@ class UserRepository extends ServiceEntityRepository
 
     public function loadUserByUsername($username)
     {
-        $user = $this->findOneBy(array('username' => $username));
+        $user = $this->findOneBy(['username' => $username]);
 
         if (!$user) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
@@ -36,8 +36,8 @@ class UserRepository extends ServiceEntityRepository
         return $this->loadUserByUsername($user->getUsername());
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
-        return $class === 'App\Entity\User';
+        return $class === User::class;
     }
 }

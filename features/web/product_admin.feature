@@ -38,7 +38,6 @@ Feature: Product admin panel
     And I should not see "Foo1"
     But I should see "Bar"
 
-  @javascript
   Scenario: Add a new product
     Given I am on "/admin/products"
     When I click "New Product"

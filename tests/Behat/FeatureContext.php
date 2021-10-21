@@ -39,10 +39,10 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, Loader $symfonyFixturesLoader)
     {
         $this->entityManager = $entityManager;
-        $this->symfonyFixturesLoader = new Loader();
+        $this->symfonyFixturesLoader = $symfonyFixturesLoader;
     }
 
     /**
@@ -50,7 +50,8 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      */
     public function clearData()
     {
-        $this->entityManager->clear(Product::class);
+        $this->entityManager->createQuery('DELETE App:User u')->execute();
+        $this->entityManager->createQuery('DELETE App:Product p')->execute();
     }
 
     /**

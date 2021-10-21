@@ -19,7 +19,6 @@ class SecurityController extends AbstractController
 
     public function loginCheck()
     {
-
     }
 
     public function logout()
