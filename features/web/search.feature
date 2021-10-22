@@ -14,5 +14,5 @@ Feature: Search
 
     Examples:
       | term    | result              |
-      | Samsung | Samsung Galaxy S II |
+      | Samsung | Samsung 3D Slim LED |
       | XBox    | No products found   |

@@ -85,9 +85,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->plainPassword;
     }
 
-    public function setPlainPassword($plainPassword)
+    public function setPlainPassword($plainPassword): self
     {
         $this->plainPassword = $plainPassword;
+        return $this;
     }
 
     public function getId()
@@ -100,18 +101,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdAt;
     }
 
-    public function setUsername($username)
+    public function setUsername($username): self
     {
         $this->username = $username;
+        return $this;
     }
 
-    public function setPassword($password)
+    public function setPassword($password): self
     {
         $this->password = $password;
+        return $this;
     }
 
-    public function setRoles($roles)
+    public function setRoles($roles): self
     {
         $this->roles = $roles;
+        return $this;
     }
 }

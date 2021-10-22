@@ -62,9 +62,10 @@ class Product
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getAuthor()
@@ -72,9 +73,10 @@ class Product
         return $this->author;
     }
 
-    public function setAuthor(User $author)
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
+        return $this;
     }
 
     public function getDescription()
@@ -82,9 +84,10 @@ class Product
         return $this->description;
     }
 
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
+        return $this;
     }
 
     public function getPrice()
@@ -92,9 +95,10 @@ class Product
         return $this->price;
     }
 
-    public function setPrice($price)
+    public function setPrice($price): self
     {
         $this->price = $price;
+        return $this;
     }
 
     public function getIsPublished()
@@ -102,13 +106,20 @@ class Product
         return $this->isPublished;
     }
 
-    public function setIsPublished($isPublished)
+    public function setIsPublished($isPublished): self
     {
         $this->isPublished = $isPublished;
+        return $this;
     }
 
-    public function setCreatedAt(\DateTime $createdAt)
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getCreatedAt(): \Datetime
+    {
+        return $this->createdAt;
     }
 }

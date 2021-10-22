@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class ProductAdminController extends AbstractController
 {
@@ -42,6 +43,9 @@ class ProductAdminController extends AbstractController
         return $this->render('product/new.html.twig');
     }
 
+    /**
+     * @ParamConverter("product", class="App\Entity\Product")
+     */
     public function delete(Product $product, EntityManagerInterface $em): Response
     {
         $em->remove($product);

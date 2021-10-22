@@ -26,7 +26,7 @@ class MainController extends AbstractController
     public function search(Request $request, ProductRepository $productRepository): Response
     {
         $search = $request->query->get('searchTerm');
-        $products = $productRepository->search($search);
+        $products = $productRepository->search(trim($search));
 
         return $this->render('main/homepage.html.twig', [
             'products' => $products,

@@ -11,9 +11,12 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Defines application features from the specific context.
@@ -33,16 +36,31 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     private $symfonyFixturesLoader;
 
     /**
+     * @var UserPasswordHasherInterface
+     */
+    private $passwordHasher;
+
+    /**
+     * @var ORMExecutor
+     */
+    private $executor;
+
+    /**
      * Initializes context.
      *
      * Every scenario gets its own context instance.
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct(EntityManagerInterface $entityManager, Loader $symfonyFixturesLoader)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        Loader $symfonyFixturesLoader,
+        UserPasswordHasherInterface $passwordHasher
+    ){
         $this->entityManager = $entityManager;
         $this->symfonyFixturesLoader = $symfonyFixturesLoader;
+        $this->passwordHasher = $passwordHasher;
+        $this->executor = new ORMExecutor($entityManager, new ORMPurger($entityManager));
     }
 
     /**
@@ -59,19 +77,26 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      */
     public function loadFixtures()
     {
-        $this->symfonyFixturesLoader->loadFromDirectory(__DIR__.'/../../src/DataFixtures');
+        $this->executor->execute(
+            $this->symfonyFixturesLoader->loadFromDirectory(__DIR__ . '/../../src/DataFixtures')
+        );
     }
 
     /**
      * @Given there is an admin user :username with password :password
      */
-    public function thereIsAnAdminUserWithPassword($username, $password)
+    public function thereIsAnAdminUserWithPassword($username, $password): User
     {
         $user = new User();
-        $user->setUsername($username);
-        $user->setPlainPassword($password);
-        $user->setPassword($password);
-        $user->setRoles(['ROLE_ADMIN']);
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $user,
+            $password
+        );
+
+        $user->setUsername($username)
+            ->setPassword($hashedPassword)
+            ->setPlainPassword($password)
+            ->setRoles(['ROLE_ADMIN']);
 
         $em = $this->getEntityManager();
         $em->persist($user);
@@ -124,10 +149,10 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     public function theFollowingProductsExist(TableNode $table)
     {
         foreach ($table as $row) {
-            $product = new Product();
-            $product->setName($row['name']);
-            $product->setPrice(rand(10, 1000));
-            $product->setDescription('lorem');
+            $product = (new Product())
+                ->setName($row['name'])
+                ->setPrice(rand(10, 1000))
+                ->setDescription('lorem');
 
             if (isset($row['is published']) && $row['is published'] == 'yes') {
                 $product->setIsPublished(true);
@@ -207,7 +232,8 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     public function iPutABreakpoint()
     {
         fwrite(STDOUT, "\033[s    \033[93m[Breakpoint] Press \033[1;93m[RETURN]\033[0;93m to continue...\033[0m");
-        while (fgets(STDIN, 1024) == '') {}
+        while (fgets(STDIN, 1024) == '') {
+        }
         fwrite(STDOUT, "\033[u");
         return;
     }
@@ -243,7 +269,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     {
         for ($i = 0; $i < $count; $i++) {
             $product = new Product();
-            $product->setName('Product '.$i);
+            $product->setName('Product ' . $i);
             $product->setPrice(rand(10, 1000));
             $product->setDescription('lorem');
 
