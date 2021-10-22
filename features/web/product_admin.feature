@@ -37,16 +37,3 @@ Feature: Product admin panel
     Then I should see "The product was deleted"
     And I should not see "Foo1"
     But I should see "Bar"
-
-  Scenario: Add a new product
-    Given I am on "/admin/products"
-    When I click "New Product"
-    And I wait for the modal to load
-    And I fill in "Name" with "Veloci-chew toy"
-    And I fill in "Price" with "20"
-    And I fill in "Description" with "Have your velociraptor chew on this instead!"
-    And I press "Save"
-    Then I should see "Product created FTW!"
-    And I should see "Veloci-chew toy"
-    # verify that we are the owner of the toy
-    And I should not see "Anonymous"

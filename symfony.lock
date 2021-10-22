@@ -8,6 +8,9 @@
     "behat/mink": {
         "version": "v1.9.0"
     },
+    "behat/mink-goutte-driver": {
+        "version": "v1.3.0"
+    },
     "behat/mink-selenium2-driver": {
         "version": "v1.5.0"
     },
@@ -112,6 +115,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "fabpot/goutte": {
+        "version": "v3.3.1"
+    },
     "friends-of-behat/mink-browserkit-driver": {
         "version": "v1.5.0"
     },
@@ -135,6 +141,15 @@
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
+    },
+    "guzzlehttp/guzzle": {
+        "version": "6.5.5"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.5.0"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.8.3"
     },
     "instaclick/php-webdriver": {
         "version": "1.4.10"
@@ -204,8 +219,14 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -390,6 +411,9 @@
     },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.23.1"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.23.0"
     },
     "symfony/polyfill-intl-normalizer": {
         "version": "v1.23.0"

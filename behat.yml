@@ -5,6 +5,11 @@ default:
                 - App\Tests\Behat\FeatureContext
                 - Behat\MinkExtension\Context\MinkContext
             paths: [ '%paths.base%/features/web' ]
+        js:
+            contexts:
+                - App\Tests\Behat\FeatureContext
+                - Behat\MinkExtension\Context\MinkContext
+            paths: [ '%paths.base%/features/js' ]
         demo:
             contexts:
                 - App\Tests\Behat\DemoContext
@@ -20,11 +25,21 @@ default:
                 class: App\Kernel
         Behat\MinkExtension:
             # adapt this to whatever the real URL is to your local site
-            base_url: http://127.0.0.1:8080/
-            # or use "goutte"
+            base_url: http://localhost:8000/
+            goutte: ~
             default_session: symfony
             javascript_session: selenium2
             browser_name: chrome
             symfony: ~
-            selenium2: ~
+            selenium2:
+                wd_host: http://127.0.0.1:4444/wd/hub
+                capabilities:
+                    browserName: chrome
+                    browser: chrome
+                    chrome:
+                        switches:
+                            - --disable-gpu
+                            - --window-size=1280,1600
+                    marionette: true
+
 
