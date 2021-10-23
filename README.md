@@ -1,28 +1,30 @@
-# BDD, Behat, Mink and other Wonderful ThingsRESTing with Symfony
+# BDD, Behat, Mink and other Wonderful ThingsRESTing with Symfony v5
 
 Well hi there! This repository holds the code and script
 for the [Behat PHP course on KnpUniversity](https://knpuniversity.com/screencast/behat).
 
 ## Setup the Project
 
-**NOTE**: This tutorial does not work in PHP 7.3 and above.
-
-Ok, cool - this will be easy!
-
-1. Make sure you have [Composer installed](https://getcomposer.org/).
+1. Make sure you have [Docker](https://www.docker.com/).
 
 2. In a terminal, move into the project, then install the composer dependencies:
 
 ```bash
-composer install
+docker-compose up -d
 ```
 
-Or you may need to run `php composer.phar install` - depending on *how*
-you installed Composer. This will probably ask you some questions
-about your database (answer for your system) and other settings
-(just hit enter for these).
+3. Inside `app` container (example):
 
-3. Load up your database
+```bash
+docker exec -it behat_sf_5_course_app_1 /bin/bash
+```
+
+run:
+```bash
+composer install --optimize-autoloader --no-scripts --no-progress --no-plugins
+```
+
+3. Inside `app` container load up your database
 
 This project uses an Sqlite database, which normally is supported by PHP
 out of the box.
@@ -30,24 +32,16 @@ out of the box.
 To load up your database file, run:
 
 ```bash
-php ./bin/console doctrine:database:create
-php ./bin/console doctrine:schema:update --force
+php ./bin/console doctrine:database:create && \
+php ./bin/console doctrine:schema:update --force && \
 php ./bin/console doctrine:fixtures:load
 ```
 
 This will create - and populate - an `app/app.db` file.
 
-4. Start up the built-in PHP web server:
-
-```bash
-php ./bin/console server:run
-```
-
-Then find the site at http://localhost:8000.
+4. You'll find the site at http://localhost:8080.
 
 You can login with:
 
 user: admin
 pass: admin
-
-Have fun! 

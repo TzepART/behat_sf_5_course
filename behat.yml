@@ -23,6 +23,8 @@ default:
         FriendsOfBehat\SymfonyExtension:
             kernel:
                 class: App\Kernel
+                environment: test
+                debug: false
         Behat\MinkExtension:
             # adapt this to whatever the real URL is to your local site
             base_url: http://localhost:8000/
@@ -32,7 +34,7 @@ default:
             browser_name: chrome
             symfony: ~
             selenium2:
-                wd_host: http://127.0.0.1:4444/wd/hub
+                wd_host: http://hub:4444/wd/hub
                 capabilities:
                     browserName: chrome
                     browser: chrome
@@ -40,6 +42,6 @@ default:
                         switches:
                             - --disable-gpu
                             - --window-size=1280,1600
-                    marionette: true
+#                    marionette: true
 
 
