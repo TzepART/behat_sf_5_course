@@ -34,7 +34,7 @@ To load up your database file, run:
 ```bash
 php ./bin/console doctrine:database:create && \
 php ./bin/console doctrine:schema:update --force && \
-php ./bin/console doctrine:fixtures:load
+php ./bin/console doctrine:fixtures:load --no-interaction
 ```
 
 This will create - and populate - an `app/app.db` file.
@@ -45,3 +45,8 @@ You can login with:
 
 user: admin
 pass: admin
+
+4. Run behat tests:
+```bash
+./vendor/bin/behat
+```
