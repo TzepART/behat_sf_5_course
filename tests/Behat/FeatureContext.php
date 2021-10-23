@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Behat;
 
+use App\Doctrine\SchemaManager;
 use App\Entity\Product;
 use App\Entity\User;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Element\NodeElement;
 use Behat\MinkExtension\Context\RawMinkContext;
-use Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -31,19 +30,14 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     private $entityManager;
 
     /**
-     * @var SymfonyFixturesLoader
-     */
-    private $symfonyFixturesLoader;
-
-    /**
      * @var UserPasswordHasherInterface
      */
     private $passwordHasher;
 
     /**
-     * @var ORMExecutor
+     * @var SchemaManager
      */
-    private $executor;
+    private $schemaManager;
 
     /**
      * Initializes context.
@@ -54,38 +48,34 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        Loader $symfonyFixturesLoader,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
+        SchemaManager $schemaManager
     ){
         $this->entityManager = $entityManager;
-        $this->symfonyFixturesLoader = $symfonyFixturesLoader;
         $this->passwordHasher = $passwordHasher;
-        $this->executor = new ORMExecutor($entityManager, new ORMPurger($entityManager));
+        $this->schemaManager = $schemaManager;
     }
 
     /**
      * @BeforeScenario
      */
-    public function clearData()
+    public function clearData(): void
     {
-        $this->entityManager->createQuery('DELETE App:Product p')->execute();
-        $this->entityManager->createQuery('DELETE App:User u')->execute();
+        $this->schemaManager->rebuildSchema();
     }
 
     /**
      * @BeforeScenario @fixtures
      */
-    public function loadFixtures()
+    public function loadFixtures(): void
     {
-        $this->executor->execute(
-            $this->symfonyFixturesLoader->loadFromDirectory(__DIR__ . '/../../src/DataFixtures')
-        );
+        $this->schemaManager->loadFixtures();
     }
 
     /**
      * @Given there is an admin user :username with password :password
      */
-    public function thereIsAnAdminUserWithPassword($username, $password): User
+    public function thereIsAnAdminUserWithPassword(string $username, string $password): User
     {
         $user = new User();
         $hashedPassword = $this->passwordHasher->hashPassword(
@@ -98,7 +88,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
             ->setPlainPassword($password)
             ->setRoles(['ROLE_ADMIN']);
 
-        $em = $this->getEntityManager();
+        $em = $this->entityManager;
         $em->persist($user);
         $em->flush();
 
@@ -108,7 +98,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     /**
      * @When I fill in the search box with :term
      */
-    public function iFillInTheSearchBoxWith($term)
+    public function iFillInTheSearchBoxWith(string $term): void
     {
         $searchBox = $this->assertSession()
             ->elementExists('css', 'input[name="searchTerm"]');
@@ -119,7 +109,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     /**
      * @When I press the search button
      */
-    public function iPressTheSearchButton()
+    public function iPressTheSearchButton(): void
     {
         $button = $this->assertSession()
             ->elementExists('css', '#search_submit');
@@ -130,7 +120,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     /**
      * @Given there is/are :count product(s)
      */
-    public function thereAreProducts($count)
+    public function thereAreProducts(int $count): void
     {
         $this->createProducts($count);
     }
@@ -138,7 +128,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     /**
      * @Given I author :count products
      */
-    public function iAuthorProducts($count)
+    public function iAuthorProducts(int $count): void
     {
         $this->createProducts($count, $this->currentUser);
     }
@@ -146,7 +136,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     /**
      * @Given the following product(s) exist(s):
      */
-    public function theFollowingProductsExist(TableNode $table)
+    public function theFollowingProductsExist(TableNode $table): void
     {
         foreach ($table as $row) {
             $product = (new Product())
@@ -158,16 +148,16 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
                 $product->setIsPublished(true);
             }
 
-            $this->getEntityManager()->persist($product);
+            $this->entityManager->persist($product);
         }
 
-        $this->getEntityManager()->flush();
+        $this->entityManager->flush();
     }
 
     /**
      * @Then the :rowText row should have a check mark
      */
-    public function theProductRowShouldShowAsPublished($rowText)
+    public function theProductRowShouldShowAsPublished(string $rowText): void
     {
         $row = $this->findRowByText($rowText);
 
@@ -177,7 +167,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     /**
      * @When I press :linkText in the :rowText row
      */
-    public function iClickInTheRow($linkText, $rowText)
+    public function iClickInTheRow(string $linkText, string $rowText): void
     {
         $this->findRowByText($rowText)->pressButton($linkText);
     }
@@ -185,7 +175,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     /**
      * @When I click :linkName
      */
-    public function iClick($linkName)
+    public function iClick(string $linkName): void
     {
         $this->getPage()->clickLink($linkName);
     }
@@ -193,7 +183,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     /**
      * @Then I should see :count products
      */
-    public function iShouldSeeProducts($count)
+    public function iShouldSeeProducts(int $count): void
     {
         $table = $this->getPage()->find('css', 'table.table');
         Assert::assertNotNull($table, 'Cannot find a table!');
@@ -203,7 +193,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     /**
      * @Given I am logged in as an admin
      */
-    public function iAmLoggedInAsAnAdmin()
+    public function iAmLoggedInAsAnAdmin(): void
     {
         $this->currentUser = $this->thereIsAnAdminUserWithPassword('admin', 'admin');
 
@@ -216,7 +206,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     /**
      * @When I wait for the modal to load
      */
-    public function iWaitForTheModalToLoad()
+    public function iWaitForTheModalToLoad(): void
     {
         $this->getSession()->wait(
             5000,
@@ -225,47 +215,25 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     }
 
     /**
-     * Pauses the scenario until the user presses a key. Useful when debugging a scenario.
-     *
-     * @Then (I )break
-     */
-    public function iPutABreakpoint()
-    {
-        fwrite(STDOUT, "\033[s    \033[93m[Breakpoint] Press \033[1;93m[RETURN]\033[0;93m to continue...\033[0m");
-        while (fgets(STDIN, 1024) == '') {
-        }
-        fwrite(STDOUT, "\033[u");
-        return;
-    }
-
-    /**
      * Saving a screenshot
      *
      * @When I save a screenshot to :filename
      */
-    public function iSaveAScreenshotIn($filename)
+    public function iSaveAScreenshotIn(string $filename)
     {
         sleep(1);
         $this->saveScreenshot($filename, __DIR__ . '/../behat_sf_5_course');
     }
 
     /**
-     * @return \Behat\Mink\Element\DocumentElement
+     * @return DocumentElement
      */
-    private function getPage()
+    private function getPage(): DocumentElement
     {
         return $this->getSession()->getPage();
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
-    private function getEntityManager(): EntityManagerInterface
-    {
-        return $this->entityManager;
-    }
-
-    private function createProducts($count, User $author = null)
+    private function createProducts(int $count, User $author = null)
     {
         for ($i = 0; $i < $count; $i++) {
             $product = new Product();
@@ -277,17 +245,17 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
                 $product->setAuthor($author);
             }
 
-            $this->getEntityManager()->persist($product);
+            $this->entityManager->persist($product);
         }
 
-        $this->getEntityManager()->flush();
+        $this->entityManager->flush();
     }
 
     /**
-     * @param $rowText
-     * @return \Behat\Mink\Element\NodeElement
+     * @param string $rowText
+     * @return NodeElement
      */
-    private function findRowByText($rowText)
+    private function findRowByText(string $rowText): NodeElement
     {
         $row = $this->getPage()->find('css', sprintf('table tr:contains("%s")', $rowText));
         Assert::assertNotNull($row, 'Cannot find a table row with this text!');

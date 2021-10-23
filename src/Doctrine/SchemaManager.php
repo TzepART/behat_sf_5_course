@@ -1,30 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Doctrine;
 
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use App\DataFixtures\AppFixtures;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
-use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Handles rebuilding our database tables
  */
 class SchemaManager
 {
+    /**
+     * @var EntityManager
+     */
     private $em;
+    /**
+     * @var UserPasswordHasherInterface
+     */
+    private $userPasswordHasher;
 
-    private $container;
-
-    public function __construct(EntityManager $em, ContainerInterface $container)
+    public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->em = $em;
-        $this->container = $container;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
-    public function rebuildSchema()
+    public function rebuildSchema(): void
     {
         $metadatas = $this->em->getMetadataFactory()->getAllMetadata();
         $tool = new SchemaTool($this->em);
@@ -32,12 +38,9 @@ class SchemaManager
         $tool->updateSchema($metadatas, false);
     }
 
-    public function loadFixtures()
+    public function loadFixtures(): void
     {
-        $loader = new ContainerAwareLoader($this->container);
-        $loader->loadFromDirectory(__DIR__.'/../DataFixtures');
-        $purger = new ORMPurger();
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->execute($loader->getFixtures());
+        $fixture = new AppFixtures($this->userPasswordHasher);
+        $fixture->load($this->em);
     }
 }

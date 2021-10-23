@@ -7,7 +7,6 @@ namespace App\Controller;
 use App\Doctrine\SchemaManager;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,7 +25,12 @@ class MainController extends AbstractController
     public function search(Request $request, ProductRepository $productRepository): Response
     {
         $search = $request->query->get('searchTerm');
-        $products = $productRepository->search(trim($search));
+
+        if($search !== null){
+            $products = $productRepository->search(trim($search));
+        }else{
+            $products = $productRepository->findAllPublished();
+        }
 
         return $this->render('main/homepage.html.twig', [
             'products' => $products,
@@ -44,8 +48,6 @@ class MainController extends AbstractController
         $schemaManager->rebuildSchema();
         $schemaManager->loadFixtures();
 
-        return new JsonResponse(array(
-            'success' => true
-        ));
+        return $this->redirectToRoute('homepage');
     }
 }

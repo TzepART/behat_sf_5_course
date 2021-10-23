@@ -9,5 +9,5 @@ services:
     App\Tests\Behat\FeatureContext:
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@doctrine.fixtures.loader'
+            - '@security.user_password_hasher'
         public: true

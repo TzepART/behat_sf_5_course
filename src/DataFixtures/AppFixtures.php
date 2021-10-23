@@ -9,14 +9,22 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Faker\Factory;
+use Faker\Generator;
 
 class AppFixtures extends Fixture
 {
     private $passwordHasher;
 
+    /**
+     * @var Generator
+     */
+    private $faker;
+
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
         $this->passwordHasher = $passwordHasher;
+        $this->faker = Factory::create();
     }
 
     public function load(ObjectManager $manager)
@@ -31,30 +39,16 @@ class AppFixtures extends Fixture
     {
         $em->clear(Product::class);
 
-        $product1 = (new Product())
-            ->setName('Kindle Fire HD 7')
-            ->setAuthor($defaultAuthor)
-            ->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
-            ->setPrice('199.99')
-            ->setCreatedAt(new \DateTime('-1 day -4 hours -3 minutes'))
-            ->setIsPublished(true);
+        $products = [
+            'Kindle Fire HD 7',
+            'Samsung Galaxy S II',
+            'Samsung 3D Slim LED',
+        ];
 
-        $product2 = (new Product())
-            ->setName('Samsung Galaxy S II')
-            ->setDescription('Sed et velit suscipit nisi porttitor rutrum. Aliquam at ante justo, sed consectetur lorem.')
-            ->setPrice('434.99')
-            ->setIsPublished(true)
-            ->setCreatedAt(new \DateTime('-1 month'));
+        foreach ($products as $product) {
+            $this->buildProduct($em, $product, $defaultAuthor);
+        }
 
-        $product3 = (new Product())
-            ->setName('Samsung 3D Slim LED')
-            ->setDescription('Sed feugiat sem ac urna hendrerit ac sollicitudin est vulputate.')
-            ->setPrice('2497.99')
-            ->setIsPublished(false);
-
-        $em->persist($product1);
-        $em->persist($product2);
-        $em->persist($product3);
         $em->flush();
     }
 
@@ -79,5 +73,23 @@ class AppFixtures extends Fixture
         $em->flush();
 
         return $user;
+    }
+
+    /**
+     * @param ObjectManager $em
+     * @param string $name
+     * @param User $defaultAuthor
+     */
+    private function buildProduct(ObjectManager $em, string $name, User $defaultAuthor): void
+    {
+        $product1 = (new Product())
+            ->setName($name)
+            ->setAuthor($defaultAuthor)
+            ->setDescription($this->faker->text())
+            ->setPrice($this->faker->randomFloat(100, 1000))
+            ->setCreatedAt($this->faker->dateTimeBetween())
+            ->setIsPublished($this->faker->boolean);
+
+        $em->persist($product1);
     }
 }

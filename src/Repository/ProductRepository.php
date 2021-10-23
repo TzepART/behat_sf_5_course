@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Product;
@@ -16,23 +18,17 @@ class ProductRepository extends ServiceEntityRepository
     /**
      * @return Product[]
      */
-    public function findAllPublished()
+    public function findAllPublished(): array
     {
-        return $this->findBy(array(
-            'isPublished' => true
-        ));
+        return $this->findBy(['isPublished' => true]);
     }
 
     /**
      * @param string $term
      * @return Product[]
      */
-    public function search($term)
+    public function search(string $term): array
     {
-        if (!$term) {
-            return $this->findAll();
-        }
-
         return $this->createQueryBuilder('p')
             ->andWhere('p.name LIKE :term')
             ->setParameter('term', '%'.$term.'%')

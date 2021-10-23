@@ -1,6 +1,6 @@
 # BDD, Behat, Mink and other Wonderful ThingsRESTing with Symfony v5
 
-Well hi there! This repository holds the code and script
+Well hi there! This repository base the code and script
 for the [Behat PHP course on KnpUniversity](https://knpuniversity.com/screencast/behat).
 
 ## Setup the Project
@@ -21,7 +21,7 @@ docker exec -it behat_sf_5_course_app_1 /bin/bash
 
 run:
 ```bash
-composer install --optimize-autoloader --no-scripts --no-progress --no-plugins
+composer install
 ```
 
 3. Inside `app` container load up your database

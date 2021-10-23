@@ -14,7 +14,7 @@ class CommandLineProcessContext implements Context
     /**
      * @Given I have a file named :filename
      */
-    public function iHaveAFileNamed($filename)
+    public function iHaveAFileNamed($filename): void
     {
         touch($filename);
     }
@@ -22,7 +22,7 @@ class CommandLineProcessContext implements Context
     /**
      * @When I run :command
      */
-    public function iRun($command)
+    public function iRun($command): void
     {
         $this->output = shell_exec($command);
     }
@@ -30,7 +30,7 @@ class CommandLineProcessContext implements Context
     /**
      * @Then I should see :string in the output
      */
-    public function iShouldSeeInTheOutput($string)
+    public function iShouldSeeInTheOutput($string): void
     {
         Assert::assertStringContainsString(
             $string,
@@ -42,7 +42,7 @@ class CommandLineProcessContext implements Context
     /**
      * @BeforeScenario
      */
-    public function moveIntoTestDir()
+    public function moveIntoTestDir(): void
     {
         if (!is_dir('test')) {
             mkdir('test');
@@ -53,7 +53,7 @@ class CommandLineProcessContext implements Context
     /**
      * @AfterScenario
      */
-    public function moveOutOfTestDir()
+    public function moveOutOfTestDir(): void
     {
         chdir('..');
         if (is_dir('test')) {
@@ -64,7 +64,7 @@ class CommandLineProcessContext implements Context
     /**
      * @Given I have a dir named :dir
      */
-    public function iHaveADirNamed($dir)
+    public function iHaveADirNamed($dir): void
     {
         mkdir($dir);
     }
