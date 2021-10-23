@@ -68,8 +68,8 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      */
     public function clearData()
     {
-        $this->entityManager->createQuery('DELETE App:User u')->execute();
         $this->entityManager->createQuery('DELETE App:Product p')->execute();
+        $this->entityManager->createQuery('DELETE App:User u')->execute();
     }
 
     /**

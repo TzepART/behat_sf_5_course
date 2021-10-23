@@ -1,4 +1,3 @@
-app.db
 .env
 
 ###> symfony/framework-bundle ###

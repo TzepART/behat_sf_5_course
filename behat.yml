@@ -27,7 +27,7 @@ default:
                 debug: false
         Behat\MinkExtension:
             # adapt this to whatever the real URL is to your local site
-            base_url: http://localhost:8000/
+            base_url: http://app:8080/
             goutte: ~
             default_session: symfony
             javascript_session: selenium2
@@ -36,12 +36,6 @@ default:
             selenium2:
                 wd_host: http://hub:4444/wd/hub
                 capabilities:
-                    browserName: chrome
-                    browser: chrome
-                    chrome:
-                        switches:
-                            - --disable-gpu
-                            - --window-size=1280,1600
-#                    marionette: true
+                    version: ''
 
 

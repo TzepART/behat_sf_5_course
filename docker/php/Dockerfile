@@ -40,7 +40,7 @@ RUN composer self-update
 RUN chmod +x /var/www/bin/console
 RUN chmod +x /usr/bin/composer
 
-RUN composer install --optimize-autoloader --no-scripts --no-progress --no-plugins
+RUN cd /var/www && composer install --optimize-autoloader --no-scripts --no-progress --no-plugins
 
 CMD ["php", "-S", "0.0.0.0:8000", "-t", "./public"]
 #EXPOSE 9000

@@ -26,18 +26,12 @@ composer install --optimize-autoloader --no-scripts --no-progress --no-plugins
 
 3. Inside `app` container load up your database
 
-This project uses an Sqlite database, which normally is supported by PHP
-out of the box.
-
-To load up your database file, run:
+To load up your database, run:
 
 ```bash
-php ./bin/console doctrine:database:create && \
-php ./bin/console doctrine:schema:update --force && \
+php ./bin/console d:m:m --no-interaction && \
 php ./bin/console doctrine:fixtures:load --no-interaction
 ```
-
-This will create - and populate - an `app/app.db` file.
 
 4. You'll find the site at http://localhost:8080.
 
