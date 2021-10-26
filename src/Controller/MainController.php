@@ -42,12 +42,4 @@ class MainController extends AbstractController
     {
         return $this->render('main/admin.html.twig');
     }
-
-    public function dbRebuild(SchemaManager $schemaManager): Response
-    {
-        $schemaManager->rebuildSchema();
-        $schemaManager->loadFixtures();
-
-        return $this->redirectToRoute('homepage');
-    }
 }

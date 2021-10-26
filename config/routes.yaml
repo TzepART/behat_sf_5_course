@@ -10,11 +10,6 @@ product_search:
     path: /search
     controller: App\Controller\MainController::search
 
-db_rebuild:
-    path: /dbRebuild
-    controller: App\Controller\MainController::dbRebuild
-
-
 product_list:
     path: /admin/products
     controller: App\Controller\ProductAdminController::list

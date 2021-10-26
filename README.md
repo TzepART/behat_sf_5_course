@@ -10,30 +10,10 @@ for the [Behat PHP course on KnpUniversity](https://knpuniversity.com/screencast
 2. In a terminal, move into the project, then install the composer dependencies:
 
 ```bash
-docker-compose up -d
+make app_up
 ```
 
-3. Inside `app` container (example):
-
-```bash
-docker exec -it behat_sf_5_course_app_1 /bin/bash
-```
-
-run:
-```bash
-composer install
-```
-
-3. Inside `app` container load up your database
-
-To load up your database, run:
-
-```bash
-php ./bin/console d:m:m --no-interaction && \
-php ./bin/console doctrine:fixtures:load --no-interaction
-```
-
-4. You'll find the site at http://localhost:8080.
+3. You'll find the site at http://localhost:8080.
 
 You can login with:
 
@@ -42,5 +22,22 @@ pass: admin
 
 4. Run behat tests:
 ```bash
-./vendor/bin/behat
+make behat_run
 ```
+
+5. If you want to run specific commands inside container run:
+```bash
+make app_bash
+```
+... and write your command :)
+
+6. Rebuild project's data:
+```bash
+make rebuild_db
+```
+
+7. Stop and remove app's containers:
+```bash
+make app_down
+```
+
