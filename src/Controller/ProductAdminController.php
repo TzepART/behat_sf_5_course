@@ -28,11 +28,11 @@ class ProductAdminController extends AbstractController
         if ($request->isMethod('POST')) {
             $this->addFlash('success', 'Product created FTW!');
 
-            $product = new Product();
-            $product->setName($request->get('name'));
-            $product->setDescription($request->get('description'));
-            $product->setPrice($request->get('price'));
-            $product->setAuthor($this->getUser());
+            $product = (new Product())
+                ->setName($request->get('name'))
+                ->setDescription($request->get('description'))
+                ->setPrice((int) $request->get('price'))
+                ->setAuthor($this->getUser());
 
             $em->persist($product);
             $em->flush();

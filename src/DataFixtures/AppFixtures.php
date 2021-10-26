@@ -14,12 +14,12 @@ use Faker\Generator;
 
 class AppFixtures extends Fixture
 {
-    private $passwordHasher;
+    private UserPasswordHasherInterface $passwordHasher;
 
     /**
      * @var Generator
      */
-    private $faker;
+    private Generator $faker;
 
     public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
@@ -86,7 +86,7 @@ class AppFixtures extends Fixture
             ->setName($name)
             ->setAuthor($defaultAuthor)
             ->setDescription($this->faker->text())
-            ->setPrice($this->faker->randomFloat(100, 1000))
+            ->setPrice($this->faker->numberBetween(100, 1000))
             ->setCreatedAt($this->faker->dateTimeBetween())
             ->setIsPublished($this->faker->boolean);
 

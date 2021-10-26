@@ -18,11 +18,11 @@ class SchemaManager
     /**
      * @var EntityManager
      */
-    private $em;
+    private EntityManagerInterface $em;
     /**
      * @var UserPasswordHasherInterface
      */
-    private $userPasswordHasher;
+    private UserPasswordHasherInterface $userPasswordHasher;
 
     public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher)
     {

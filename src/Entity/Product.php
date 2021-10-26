@@ -17,98 +17,63 @@ class Product
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $name;
+    private string $name;
 
     /**
+     * @var User|null
      * @ORM\ManyToOne(targetEntity="User")
      */
-    private $author;
+    private ?User $author = null;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $price;
+    private int $price;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isPublished = false;
+    private bool $isPublished = false;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private \DateTime  $createdAt;
 
     public function __construct()
     {
         $this->createdAt = new \Datetime();
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(User $author): self
-    {
-        $this->author = $author;
-        return $this;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function setDescription($description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
         return $this;
     }
 
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    public function setPrice($price): self
+    public function setPrice(int $price): self
     {
         $this->price = $price;
         return $this;
     }
 
-    public function getIsPublished()
-    {
-        return $this->isPublished;
-    }
-
-    public function setIsPublished($isPublished): self
+    public function setIsPublished(bool $isPublished): self
     {
         $this->isPublished = $isPublished;
         return $this;
@@ -118,6 +83,43 @@ class Product
     {
         $this->createdAt = $createdAt;
         return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getPrice(): int
+    {
+        return $this->price;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->isPublished;
     }
 
     public function getCreatedAt(): \Datetime

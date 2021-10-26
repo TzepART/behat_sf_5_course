@@ -19,41 +19,75 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", unique=true)
      */
-    private $username;
+    private string $username;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $plainPassword;
+    private ?string $plainPassword = null;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = ['ROLE_USER'];
+    private array $roles = ['ROLE_USER'];
 
     /**
      * @ORM\Column(type="datetime")
      */
-    public $createdAt;
+    public \DateTime $createdAt;
 
     public function __construct()
     {
         $this->createdAt = new \Datetime();
     }
 
-    public function getRoles()
+    public function eraseCredentials()
     {
-        return $this->roles;
+        $this->plainPassword = null;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    public function getUserIdentifier(): int
+    {
+        return $this->getId();
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function getPassword(): string
@@ -66,62 +100,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return null;
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    public function eraseCredentials()
-    {
-        $this->plainPassword = null;
-    }
-
-    public function __toString()
-    {
-        return $this->getUsername();
-    }
-
-    public function getPlainPassword()
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
-    public function setPlainPassword($plainPassword): self
+    public function getRoles(): array
     {
-        $this->plainPassword = $plainPassword;
-        return $this;
+        return $this->roles;
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getCreatedAt()
+    public function getCreatedAt(): \Datetime
     {
         return $this->createdAt;
     }
 
-    public function setUsername($username): self
+    public function __toString(): string
     {
-        $this->username = $username;
-        return $this;
-    }
-
-    public function setPassword($password): self
-    {
-        $this->password = $password;
-        return $this;
-    }
-
-    public function setRoles($roles): self
-    {
-        $this->roles = $roles;
-        return $this;
-    }
-
-    public function getUserIdentifier(): int
-    {
-        return $this->getId();
+        return $this->username;
     }
 }
