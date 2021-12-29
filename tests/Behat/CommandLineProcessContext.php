@@ -9,7 +9,7 @@ use PHPUnit\Framework\Assert;
 
 class CommandLineProcessContext implements Context
 {
-    private $output;
+    private mixed $output;
 
     /**
      * @Given I have a file named :filename

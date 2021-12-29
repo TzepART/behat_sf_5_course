@@ -17,16 +17,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 final class DemoContext implements Context
 {
-    /** @var KernelInterface */
-    private $kernel;
+    private ?Response $response = null;
 
-    /** @var Response|null */
-    private $response;
-
-    public function __construct(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
-    }
+    public function __construct(
+        private KernelInterface $kernel
+    ){}
 
     /**
      * @When a demo scenario sends a request to :path

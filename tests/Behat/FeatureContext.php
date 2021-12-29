@@ -22,38 +22,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class FeatureContext extends RawMinkContext implements Context, SnippetAcceptingContext
 {
-    private $currentUser;
+    private User $currentUser;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var UserPasswordHasherInterface
-     */
-    private $passwordHasher;
-
-    /**
-     * @var SchemaManager
-     */
-    private $schemaManager;
-
-    /**
-     * Initializes context.
-     *
-     * Every scenario gets its own context instance.
-     * You can also pass arbitrary arguments to the
-     * context constructor through behat.yml.
-     */
     public function __construct(
-        EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $passwordHasher,
-        SchemaManager $schemaManager
-    ){
-        $this->entityManager = $entityManager;
-        $this->passwordHasher = $passwordHasher;
-        $this->schemaManager = $schemaManager;
+        private EntityManagerInterface      $entityManager,
+        private UserPasswordHasherInterface $passwordHasher,
+        private SchemaManager               $schemaManager
+    )
+    {
     }
 
     /**
@@ -187,7 +163,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     {
         $table = $this->getPage()->find('css', 'table.table');
         Assert::assertNotNull($table, 'Cannot find a table!');
-        Assert::assertCount(intval($count), $table->findAll('css', 'tbody tr'));
+        Assert::assertCount($count, $table->findAll('css', 'tbody tr'));
     }
 
     /**

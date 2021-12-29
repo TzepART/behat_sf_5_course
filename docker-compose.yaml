@@ -28,7 +28,7 @@ services:
     networks:
       - behat-sf-5-course
   wiremock:
-    image: rodolpheche/wiremock
+    image: wiremock/wiremock
     restart: on-failure
     ports:
       - 28080:8080
