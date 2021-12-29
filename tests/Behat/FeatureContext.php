@@ -28,9 +28,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
         private EntityManagerInterface      $entityManager,
         private UserPasswordHasherInterface $passwordHasher,
         private SchemaManager               $schemaManager
-    )
-    {
-    }
+    ){}
 
     /**
      * @BeforeScenario

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Doctrine;
 
 use App\DataFixtures\AppFixtures;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -15,20 +14,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class SchemaManager
 {
-    /**
-     * @var EntityManager
-     */
-    private EntityManagerInterface $em;
-    /**
-     * @var UserPasswordHasherInterface
-     */
-    private UserPasswordHasherInterface $userPasswordHasher;
-
-    public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher)
-    {
-        $this->em = $em;
-        $this->userPasswordHasher = $userPasswordHasher;
-    }
+    public function __construct(
+        private EntityManagerInterface $em,
+        private UserPasswordHasherInterface $userPasswordHasher
+    ){}
 
     public function rebuildSchema(): void
     {
