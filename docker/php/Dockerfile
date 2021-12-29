@@ -1,5 +1,5 @@
 FROM composer:latest AS composer
-FROM php:7.4.9-fpm
+FROM php:8.1-fpm
 
 RUN set -eux; \
     apt-get update; \
@@ -40,7 +40,7 @@ RUN composer self-update
 RUN chmod +x /var/www/bin/console
 RUN chmod +x /usr/bin/composer
 
-RUN cd /var/www && composer install --optimize-autoloader --no-scripts --no-progress --no-plugins
+#RUN cd /var/www && composer install --optimize-autoloader --no-scripts --no-progress --no-plugins
 
 CMD ["php", "-S", "0.0.0.0:8000", "-t", "./public"]
 #EXPOSE 9000
