@@ -5,7 +5,7 @@ services:
     build:
       context: ./
       dockerfile: ./docker/php/Dockerfile
-    env_file: .env
+    env_file: ./docker/.env
     volumes:
       - .:/var/www:delegated
     ports:
@@ -14,6 +14,18 @@ services:
       - database
     networks:
       - behat-sf-5-course
+
+  nginx:
+    build:
+      context: ./docker/nginx
+    env_file: ./docker/.env
+    volumes:
+      - ..:/var/www:rw
+    depends_on:
+      - app
+    networks:
+      - behat-sf-5-course
+
   database:
     image: postgres:12
     restart: always
