@@ -5,9 +5,3 @@ services:
 
     App\Tests\Behat\:
         resource: '../tests/Behat/*'
-
-    App\Tests\Behat\FeatureContext:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@security.user_password_hasher'
-        public: true

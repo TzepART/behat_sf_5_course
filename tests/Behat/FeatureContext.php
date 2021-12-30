@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Behat;
 
-use App\Doctrine\SchemaManager;
+use App\DataFixtures\ProductFixtures;
+use App\DataFixtures\UserFixtures;
 use App\Entity\Product;
 use App\Entity\User;
 use Behat\Behat\Context\Context;
@@ -27,7 +28,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     public function __construct(
         private EntityManagerInterface      $entityManager,
         private UserPasswordHasherInterface $passwordHasher,
-        private SchemaManager               $schemaManager
+        private DbContext $dbContext
     ){}
 
     /**
@@ -35,7 +36,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      */
     public function clearData(): void
     {
-        $this->schemaManager->rebuildSchema();
+        $this->dbContext->rebuildSchema();
     }
 
     /**
@@ -43,7 +44,9 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
      */
     public function loadFixtures(): void
     {
-        $this->schemaManager->loadFixtures();
+        $this->dbContext->addFixture(new UserFixtures($this->passwordHasher));
+        $this->dbContext->addFixture(ProductFixtures::class);
+        $this->dbContext->fixturesLoad();
     }
 
     /**

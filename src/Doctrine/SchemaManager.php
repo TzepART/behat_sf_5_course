@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Doctrine;
 
-use App\DataFixtures\AppFixtures;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Handles rebuilding our database tables
@@ -15,8 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class SchemaManager
 {
     public function __construct(
-        private EntityManagerInterface $em,
-        private UserPasswordHasherInterface $userPasswordHasher
+        private EntityManagerInterface $em
     ){}
 
     public function rebuildSchema(): void
@@ -25,11 +22,5 @@ class SchemaManager
         $tool = new SchemaTool($this->em);
         $tool->dropSchema($metadatas);
         $tool->updateSchema($metadatas, false);
-    }
-
-    public function loadFixtures(): void
-    {
-        $fixture = new AppFixtures($this->userPasswordHasher);
-        $fixture->load($this->em);
     }
 }
