@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixtures extends Fixture
+class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
     public const ADMIN_USER_KEY = 'admin_user';
 
@@ -34,5 +35,10 @@ class UserFixtures extends Fixture
         $this->addReference(self::ADMIN_USER_KEY, $user);
         $manager->persist($user);
         $manager->flush();
+    }
+
+    public function getOrder(): int
+    {
+        return 1;
     }
 }

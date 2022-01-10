@@ -19,27 +19,27 @@ class DbContext implements Context
     private ORMExecutor $executor;
 
     public function __construct(
-        private EntityManagerInterface $em,
-    ){}
+        private EntityManagerInterface $em
+    ){
+        $purger = new ORMPurger($this->em);
+        $purger->setPurgeMode(ORMPurger::PURGE_MODE_TRUNCATE);
+        $this->executor = new ORMExecutor($this->em, $purger);
+    }
 
     /**
      * @BeforeScenario
      */
     public function prepareDatabase(): void
     {
-        $purger = new ORMPurger($this->em);
-        $purger->setPurgeMode(ORMPurger::PURGE_MODE_TRUNCATE);
-        $this->executor = new ORMExecutor($this->em, $purger);
-
         $this->em->beginTransaction();
     }
 
     public function rebuildSchema(): void
     {
-        $metadatas = $this->em->getMetadataFactory()->getAllMetadata();
+        $metadata = $this->em->getMetadataFactory()->getAllMetadata();
         $tool = new SchemaTool($this->em);
-        $tool->dropSchema($metadatas);
-        $tool->updateSchema($metadatas, false);
+        $tool->dropSchema($metadata);
+        $tool->updateSchema($metadata, false);
     }
 
     /**

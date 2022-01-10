@@ -40,7 +40,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     }
 
     /**
-     * @BeforeScenario @fixtures
+     * @Given /^Load all data$/
      */
     public function loadFixtures(): void
     {

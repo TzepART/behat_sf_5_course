@@ -6,8 +6,8 @@ Feature: Search
   Background:
     Given I am on "/"
 
-  @fixtures
   Scenario Outline: Search for a product
+    Given Load all data
     When I fill in the search box with "<term>"
     And I press the search button
     Then I should see "<result>"

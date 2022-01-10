@@ -6,13 +6,13 @@ namespace App\DataFixtures;
 
 use App\Entity\Product;
 use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
 
-class ProductFixtures extends Fixture implements DependentFixtureInterface
+class ProductFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
     private Generator $faker;
 
@@ -47,10 +47,8 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies(): array
+    public function getOrder(): int
     {
-        return [
-            UserFixtures::class
-        ];
+        return 2;
     }
 }
