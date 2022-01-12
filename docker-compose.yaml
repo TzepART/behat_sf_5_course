@@ -1,32 +1,32 @@
 version: '3'
 
 services:
-  app:
+  web:
+    build:
+      context: ./docker/nginx
+    volumes:
+      - .:/var/www:rw
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - php
+      - db
+    networks:
+      - behat-sf-5-course
+
+  php:
     build:
       context: ./
       dockerfile: ./docker/php/Dockerfile
-    env_file: ./docker/.env
+    env_file: .env
     volumes:
       - .:/var/www:delegated
-    ports:
-      - 18080:8000
-    links:
-      - database
     networks:
       - behat-sf-5-course
 
-  nginx:
-    build:
-      context: ./docker/nginx
-    env_file: ./docker/.env
-    volumes:
-      - ..:/var/www:rw
-    depends_on:
-      - app
-    networks:
-      - behat-sf-5-course
-
-  database:
+  db:
     image: postgres:12
     restart: always
     environment:
@@ -39,23 +39,12 @@ services:
       - 15432:5432
     networks:
       - behat-sf-5-course
+
   wiremock:
     image: wiremock/wiremock
     restart: on-failure
     ports:
       - 28080:8080
-    networks:
-      - behat-sf-5-course
-  hub:
-    image: selenium/hub
-    ports:
-      - 4444:4444
-    networks:
-      - behat-sf-5-course
-  chrome:
-    image: selenium/node-chrome
-    links:
-      - hub
     networks:
       - behat-sf-5-course
 

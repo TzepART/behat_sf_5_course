@@ -1,6 +1,5 @@
 FROM nginx:1.19.1-alpine
 
-COPY nginx.conf /etc/nginx/
 COPY default.conf /etc/nginx/conf.d/
 
 RUN apk update \
@@ -14,7 +13,7 @@ RUN set -x ; \
     addgroup -g 82 -S www-data ; \
     adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
 
-ARG PHP_UPSTREAM_CONTAINER=app
+ARG PHP_UPSTREAM_CONTAINER=php
 ARG PHP_UPSTREAM_PORT=9000
 
 # Set upstream conf and remove the default conf

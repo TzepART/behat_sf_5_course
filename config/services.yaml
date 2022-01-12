@@ -26,3 +26,8 @@ services:
     security.command.user_password_hash:
         class: Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher
         public: true
+
+    App\DataFixtures\:
+        resource: '../src/DataFixtures'
+        tags:
+            - doctrine.fixture.orm
