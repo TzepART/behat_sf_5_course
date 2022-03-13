@@ -1,17 +1,21 @@
+app_default:
+    path: /
+    controller: App\Controller\DefaultController::index
+    methods: [GET]
+
 api_login:
     path: /api/login
     controller: App\Controller\SecurityController::login
-
-api_login_check:
-    path: /api/login_check
-    controller: App\Controller\SecurityController::loginCheck
+    methods: [POST]
 
 api_logout:
     path: /api/logout
     controller: App\Controller\SecurityController::logout
+    methods: [POST]
 
 
 api_v1_order_create:
     path: /api/v1/order/create
     controller: App\Controller\OrderController::create
+    methods: [POST]
 

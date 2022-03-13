@@ -17,11 +17,11 @@ security:
     firewalls:
         main:
             anonymous: true
-            form_login:
-                login_path: /api/login
-                check_path: /api/login_check
+            json_login:
+                check_path: api_login
             logout:
-                path: /api/logout
+                path: api_logout
+                target: app_default
     access_control:
-#        - { path: ^/api/v1, roles: ROLE_ADMIN }
+        - { path: ^/api/v1, roles: [IS_AUTHENTICATED_FULLY] }
 

@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Entity\User;
 use App\Repository\OrderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
 {
-    #[Route('/api/v1/order/create', name: 'api_v1_order_create')]
     public function create(OrderRepository $repository, Request $request): JsonResponse
     {
+        /** @var User $user */
+        $user = $this->getUser();
         $code = $request->get('code') ?? uniqid();
         $order = (new Order())
-            ->setCode($code);
+            ->setCode($code)
+            ->setCustomer($user);
 
         $repository->add($order);
 
@@ -26,5 +28,11 @@ class OrderController extends AbstractController
             'result' => 'OK',
             'code' => $code
         ]);
+    }
+
+    public function list(OrderRepository $repository, User $user): JsonResponse
+    {
+
+        return $this->json([]);
     }
 }

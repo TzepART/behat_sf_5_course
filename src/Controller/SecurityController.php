@@ -6,22 +6,30 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    public function login(AuthenticationUtils $utils): Response
+    public function login(): Response
     {
-        return $this->render('main/login.html.twig', [
-            'error' => $utils->getLastAuthenticationError()
+        $user = $this->getUser();
+        if (null === $user) {
+            return $this->json([
+                'message' => 'missing credentials',
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+        $token = 'token';
+
+        return $this->json([
+              'user'  => $user->getUserIdentifier(),
+              'token' => $token,
         ]);
     }
 
-    public function loginCheck()
-    {
-    }
 
-    public function logout()
+    public function logout(): Response
     {
+        return $this->json([
+            'result' => 'OK'
+        ]);
     }
 }
