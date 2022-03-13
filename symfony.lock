@@ -5,20 +5,17 @@
     "behat/gherkin": {
         "version": "v4.9.0"
     },
-    "behat/mink": {
-        "version": "v1.9.0"
-    },
-    "behat/mink-goutte-driver": {
-        "version": "v1.3.0"
-    },
-    "behat/mink-selenium2-driver": {
-        "version": "v1.5.0"
-    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
-    "composer/package-versions-deprecated": {
-        "version": "1.11.99.4"
+    "bupy7/xml-constructor": {
+        "version": "v1.3.3"
+    },
+    "cebe/php-openapi": {
+        "version": "1.6.0"
+    },
+    "dms/phpunit-arraysubset-asserts": {
+        "version": "v0.3.1"
     },
     "doctrine/annotations": {
         "version": "1.13",
@@ -115,15 +112,6 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
-    "fabpot/goutte": {
-        "version": "v3.3.1"
-    },
-    "friends-of-behat/mink-browserkit-driver": {
-        "version": "v1.5.0"
-    },
-    "friends-of-behat/mink-extension": {
-        "version": "v2.5.0"
-    },
     "friends-of-behat/symfony-extension": {
         "version": "2.2",
         "recipe": {
@@ -145,20 +133,23 @@
     "fzaninotto/faker": {
         "version": "v1.9.2"
     },
-    "guzzlehttp/guzzle": {
-        "version": "6.5.5"
-    },
-    "guzzlehttp/promises": {
-        "version": "1.5.0"
-    },
-    "guzzlehttp/psr7": {
-        "version": "1.8.3"
-    },
-    "instaclick/php-webdriver": {
-        "version": "1.4.10"
+    "justinrainbow/json-schema": {
+        "version": "5.2.11"
     },
     "laminas/laminas-code": {
         "version": "4.4.3"
+    },
+    "league/openapi-psr7-validator": {
+        "version": "0.16.4"
+    },
+    "league/uri": {
+        "version": "6.5.0"
+    },
+    "league/uri-interfaces": {
+        "version": "2.3.0"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.6.1"
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
@@ -166,11 +157,29 @@
     "nikic/php-parser": {
         "version": "v4.13.0"
     },
+    "nyholm/psr7": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "0cd4d2d0e7f646fda75f9944f747a56e6ed13d4c"
+        },
+        "files": [
+            "config/packages/nyholm_psr7.yaml"
+        ]
+    },
+    "osteel/openapi-httpfoundation-testing": {
+        "version": "v0.6.1"
+    },
     "phar-io/manifest": {
         "version": "2.0.3"
     },
     "phar-io/version": {
         "version": "3.1.0"
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -222,14 +231,29 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
     "psr/http-message": {
+        "version": "1.0.1"
+    },
+    "psr/http-server-handler": {
+        "version": "1.0.1"
+    },
+    "psr/http-server-middleware": {
         "version": "1.0.1"
     },
     "psr/log": {
         "version": "1.1.4"
     },
-    "ralouphie/getallheaders": {
-        "version": "3.0.3"
+    "respect/stringifier": {
+        "version": "0.2.0"
+    },
+    "respect/validation": {
+        "version": "2.2.3"
+    },
+    "riverline/multipart-parser": {
+        "version": "2.0.9"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -315,9 +339,6 @@
             "bin/console"
         ]
     },
-    "symfony/css-selector": {
-        "version": "v5.3.4"
-    },
     "symfony/debug-bundle": {
         "version": "5.3",
         "recipe": {
@@ -391,9 +412,6 @@
             "src/Controller/.gitignore"
         ]
     },
-    "symfony/http-client-contracts": {
-        "version": "v2.4.0"
-    },
     "symfony/http-foundation": {
         "version": "v5.3.7"
     },
@@ -415,9 +433,6 @@
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.23.1"
     },
-    "symfony/polyfill-intl-idn": {
-        "version": "v1.23.0"
-    },
     "symfony/polyfill-intl-normalizer": {
         "version": "v1.23.0"
     },
@@ -433,9 +448,6 @@
     "symfony/polyfill-php81": {
         "version": "v1.23.0"
     },
-    "symfony/process": {
-        "version": "v5.3.7"
-    },
     "symfony/property-access": {
         "version": "v5.3.8"
     },
@@ -444,6 +456,9 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.3.4"
+    },
+    "symfony/psr-http-message-bridge": {
+        "version": "v2.1.2"
     },
     "symfony/routing": {
         "version": "5.3",
@@ -532,15 +547,6 @@
     "symfony/var-exporter": {
         "version": "v5.3.8"
     },
-    "symfony/web-server-bundle": {
-        "version": "4.4",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
-        }
-    },
     "symfony/yaml": {
         "version": "v5.3.6"
     },
@@ -552,5 +558,8 @@
     },
     "webmozart/assert": {
         "version": "1.10.0"
+    },
+    "wiremock-php/wiremock-php": {
+        "version": "2.32.0"
     }
 }

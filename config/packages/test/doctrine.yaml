@@ -1,0 +1,4 @@
+doctrine:
+  dbal:
+    # "TEST_TOKEN" is typically set by ParaTest
+    url: '%env(resolve:DATABASE_URL)%%env(default::TEST_TOKEN)%'

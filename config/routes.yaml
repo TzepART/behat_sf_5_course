@@ -1,36 +1,12 @@
-homepage:
-    path: /
-    controller: App\Controller\MainController::homepage
-
-admin:
-    path: /admin
-    controller: App\Controller\MainController::admin
-
-product_search:
-    path: /search
-    controller: App\Controller\MainController::search
-
-product_list:
-    path: /admin/products
-    controller: App\Controller\ProductAdminController::list
-
-product_new:
-    path: /admin/products/new
-    controller: App\Controller\ProductAdminController::new
-
-product_delete:
-    path: /admin/products/delete/{id}
-    controller: App\Controller\ProductAdminController::delete
-
-login:
-    path: /login
+api_login:
+    path: /api/login
     controller: App\Controller\SecurityController::login
 
-admin_login_check:
-    path: /admin/login_check
+api_login_check:
+    path: /api/login_check
     controller: App\Controller\SecurityController::loginCheck
 
-admin_logout:
-    path: /admin/logout
+api_logout:
+    path: /api/logout
     controller: App\Controller\SecurityController::logout
 

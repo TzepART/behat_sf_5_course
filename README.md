@@ -1,7 +1,4 @@
-# BDD, Behat, Mink and other Wonderful ThingsRESTing with Symfony v5
-
-Well hi there! This repository base the code and script
-for the [Behat PHP course on KnpUniversity](https://knpuniversity.com/screencast/behat).
+# PHP8, Behat and Mock Service with Symfony v5
 
 ## Setup the Project
 
