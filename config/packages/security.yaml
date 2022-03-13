@@ -23,5 +23,5 @@ security:
             logout:
                 path: /api/logout
     access_control:
-        - { path: ^/api/v1, roles: ROLE_ADMIN }
+#        - { path: ^/api/v1, roles: ROLE_ADMIN }
 

@@ -10,3 +10,8 @@ api_logout:
     path: /api/logout
     controller: App\Controller\SecurityController::logout
 
+
+api_v1_order_create:
+    path: /api/v1/order/create
+    controller: App\Controller\OrderController::create
+

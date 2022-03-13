@@ -52,23 +52,6 @@ abstract class ApiContext extends MockContext
     }
 
     /**
-     * @Given /^I have device "([^"]*)" with id "([^"]*)"$/
-     */
-    public function iHaveDeviceWithId(string $deviceType, string $deviceId): void
-    {
-        $this->client->setServerParameter('HTTP_X_DEVICE_TYPE', $deviceType);
-        $this->client->setServerParameter('HTTP_X_DEVICE_ID', $deviceId);
-    }
-
-    /**
-     * @Given /^my device send "([^"]*)" Content\-Type header$/
-     */
-    public function myDeviceSendNotApplicationJsonContentTypeHeader(string $contentType): void
-    {
-        $this->client->setServerParameter('CONTENT_TYPE', $contentType);
-    }
-
-    /**
      * @When /^I make request "([A-Z]+)" "([^"]*)"$/
      */
     public function iMakeRequest(string $method, string $uri): void
@@ -82,38 +65,6 @@ abstract class ApiContext extends MockContext
     public function iMakeRequestWithBody(string $method, string $uri, PyStringNode $body): void
     {
         $this->makeRequest($method, $uri, (string) $body);
-    }
-
-    /**
-     * @Given /^I am an anonymous user$/
-     */
-    public function iAmAnAnonymousUser(): void
-    {
-        $this->iHaveDeviceWithId('browser', 'unknown');
-    }
-
-    /**
-     * @Given /^I am a user with unknown device and auth token$/
-     */
-    public function iAmAUserWithUnknownDeviceAndAuthToken(): void
-    {
-        $this->iHaveDeviceWithId('browser', 'unknown');
-        $this->setAuthToken('invalid_token');
-    }
-
-    /**
-     * @Given /^I have auth\-token "([^"]*)"$/
-     */
-    public function iHaveAuthToken(string $authToken): void
-    {
-        $this->setAuthToken($authToken);
-    }
-
-    /**
-     * @Given /^I have device with no headers$/
-     */
-    public function iHaveDeviceWithNoHeaders(): void
-    {
     }
 
     /**

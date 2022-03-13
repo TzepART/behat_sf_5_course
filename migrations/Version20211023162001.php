@@ -29,7 +29,7 @@ final class Version20211023162001 extends AbstractMigration
         $this->addSql(<<<SQL
 CREATE TABLE "user"
 (
-    id             INT          NOT NULL,
+    id             INT          NOT NULL DEFAULT nextval('user_id_seq'),
     username       VARCHAR(255) NOT NULL,
     password       VARCHAR(255) NOT NULL,
     plain_password VARCHAR(255) NOT NULL,
