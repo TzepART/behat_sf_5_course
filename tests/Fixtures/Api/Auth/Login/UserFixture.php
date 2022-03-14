@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Fixtures\Api\V1\Order\Create;
+namespace App\Tests\Fixtures\Api\Auth\Login;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -27,8 +27,6 @@ final class UserFixture extends Fixture
         $user->setUsername('user_1234')
             ->setPassword($hashedPassword)
             ->setPlainPassword($plaintextPassword);
-
-        $this->addReference(self::class, $user);
 
         $manager->persist($user);
         $manager->flush();

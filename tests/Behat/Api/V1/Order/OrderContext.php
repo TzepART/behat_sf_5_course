@@ -23,13 +23,14 @@ final class OrderContext extends ApiAwareContext
         Assert::assertTrue($order instanceof Order, sprintf('Order with code:"%s" does not exist.', $code));
     }
 
-
     /**
-     * @Given /^activated smart Orders exists in database$/
+     * @Given /^several users exists in database$/
      */
-    public function activatedSmartOrdersExistsInDatabase(): void
+    public function severalUsersExistsInDatabase(): void
     {
-        $this->apiContext->addFixture(UserFixture::class);
+        $this->apiContext->addFixture(
+            new UserFixture($this->apiContext->getUserPasswordHasher())
+        );
         $this->apiContext->fixturesLoad();
     }
 

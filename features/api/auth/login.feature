@@ -2,23 +2,45 @@ Feature: Login as existing user
     As an user
     I need the ability to get access to api
 
-    Scenario Outline: Simple order crating
-#        Given I am an authenticated user
-#        And several my orders exists in database
-        When I make request "POST" "/app/v1/device/smart/activate" with body
+    Scenario: Successful login
+        And several users exists in database
+        When I make request "POST" "/api/login" with body
         """json
-        { "activationCode": "012345" }
+        {"username": "user_1234", "password": "qwe123"}
         """
         Then I should see response code 200
         And I should see that response contains subset
         """json
         {
-            "result": "OK",
-            "code": "<code>"
+          "user": 1,
+          "token": "token"
         }
         """
-        And I should see that Order "<code>" exists in database
-        Examples:
-            | code    |
-            | 12345   |
-            | 1234567 |
+
+    Scenario: Fail login by incorrect username
+        And several users exists in database
+        When I make request "POST" "/api/login" with body
+        """json
+        {"username": "fail_user_1234", "password": "qwe123"}
+        """
+        Then I should see response code 401
+        And I should see that response contains subset
+        """json
+        {
+            "error": "Invalid credentials."
+        }
+        """
+
+    Scenario: Fail login by null field
+        And several users exists in database
+        When I make request "POST" "/api/login" with body
+        """json
+        {"username": "fail_user_1234"}
+        """
+        Then I should see response code 400
+#        And I should see that response contains subset
+#        """json
+#        {
+#            "message": "missing credentials"
+#        }
+#        """

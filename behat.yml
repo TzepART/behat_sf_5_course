@@ -3,6 +3,7 @@ default:
         Api/Auth:
             contexts:
                 - App\Tests\Behat\Api\Auth\ApiContext
+                - App\Tests\Behat\Api\Auth\Login\LoginContext
             paths: [ '%paths.base%/features/api/auth' ]
         Api/V1/Order:
             contexts:

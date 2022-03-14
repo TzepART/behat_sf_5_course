@@ -12,6 +12,8 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class DbContext implements Context
 {
@@ -115,5 +117,10 @@ class DbContext implements Context
             json_encode($filter, JSON_UNESCAPED_UNICODE)
         );
         Assert::assertNull($entity, $foundMessage);
+    }
+
+    public function getUserPasswordHasher(): UserPasswordHasherInterface
+    {
+        return $this->kernel->getContainer()->get('security.command.user_password_hash');
     }
 }

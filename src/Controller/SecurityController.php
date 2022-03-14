@@ -12,6 +12,7 @@ class SecurityController extends AbstractController
     public function login(): Response
     {
         $user = $this->getUser();
+
         if (null === $user) {
             return $this->json([
                 'message' => 'missing credentials',

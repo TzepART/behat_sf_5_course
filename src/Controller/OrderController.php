@@ -10,13 +10,16 @@ use App\Repository\OrderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class OrderController extends AbstractController
 {
-    public function create(OrderRepository $repository, Request $request): JsonResponse
+    /**
+     * @param UserInterface|User $user
+     */
+    public function create(#[CurrentUser] UserInterface $user, OrderRepository $repository, Request $request): JsonResponse
     {
-        /** @var User $user */
-        $user = $this->getUser();
         $code = $request->get('code') ?? uniqid();
         $order = (new Order())
             ->setCode($code)
@@ -30,9 +33,21 @@ class OrderController extends AbstractController
         ]);
     }
 
-    public function list(OrderRepository $repository, User $user): JsonResponse
+    /**
+     * @param UserInterface|User $user
+     */
+    public function list(#[CurrentUser] UserInterface $user, OrderRepository $repository): JsonResponse
     {
+        $orders = $repository->findBy(['customer' => $user]);
 
-        return $this->json([]);
+        return $this->json(
+            array_map(function (Order $order){
+                return [
+                    'id' => $order->getId(),
+                    'customer_id' => $order->getCustomer()->getId(),
+                    'code' => $order->getCode(),
+                ];
+            }, (array) $orders)
+        );
     }
 }

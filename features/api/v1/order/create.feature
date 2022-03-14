@@ -3,9 +3,16 @@ Feature: Create order
     I need the ability to crate order
 
     Scenario Outline: Simple order crating
-#        Given I am an authenticated user
-#        And several my orders exists in database
-        When I make request "GET" "/api/v1/order/create?code=<code>"
+        Given several users exists in database
+        When I make request "POST" "/api/login" with body
+        """json
+        {"username": "user_1234", "password": "qwe123"}
+        """
+        Then I should see response code 200
+        When I make request "POST" "/api/v1/order/create" with body
+        """json
+        {"code": "<code>"}
+        """
         Then I should see response code 200
         And I should see that response contains subset
         """json

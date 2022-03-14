@@ -19,3 +19,8 @@ api_v1_order_create:
     controller: App\Controller\OrderController::create
     methods: [POST]
 
+api_v1_order_list:
+    path: /api/v1/order/list
+    controller: App\Controller\OrderController::list
+    methods: [POST]
+
