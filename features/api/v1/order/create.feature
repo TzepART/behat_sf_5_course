@@ -3,13 +3,8 @@ Feature: Create order
     I need the ability to crate order
 
     Scenario Outline: Simple order crating
-        Given several users exists in database
-        When I make request "POST" "/api/login" with body
-        """json
-        {"username": "user_1234", "password": "qwe123"}
-        """
-        Then I should see response code 200
-        When I make request "POST" "/api/v1/order/create" with body
+        Given User exists in database with apiToken "<apiToken>"
+        When I make request "POST" "/api/v1/order/create" with auth_token "<apiToken>" and user_id "<user_id>" with body
         """json
         {"code": "<code>"}
         """
@@ -23,9 +18,9 @@ Feature: Create order
         """
         And I should see that Order "<code>" exists in database
         Examples:
-            | code    |
-            | 12345   |
-            | 1234567 |
+            | apiToken         | user_id         | code    |
+            | test_api_token   | 1               | 12345   |
+#            | 1234567 |
 
 
 #    Scenario Outline: Activate smart device by registered device

@@ -15,7 +15,7 @@ final class OrderFixture extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         /** @var User $user */
-        $user = $this->getReference(UserFixture::class);
+        $user = $this->getReference(UserWithApiTokenFixture::class);
 
         $order = new Order();
         $order
@@ -31,7 +31,7 @@ final class OrderFixture extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            UserFixture::class,
+            UserWithApiTokenFixture::class,
         ];
     }
 }

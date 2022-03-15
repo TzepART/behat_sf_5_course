@@ -20,6 +20,7 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $plaintextPassword = 'admin';
+        $token = 'token';
         $user = new User();
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,
@@ -29,6 +30,7 @@ class UserFixtures extends Fixture
         $user->setUsername('admin')
             ->setPassword($hashedPassword)
             ->setPlainPassword($plaintextPassword)
+            ->setApiToken($token)
             ->setRoles(['ROLE_ADMIN']);
 
         $this->addReference(self::ADMIN_USER_KEY, $user);

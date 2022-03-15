@@ -45,6 +45,11 @@ abstract class ApiContext extends MockContext
         $this->client->setServerParameter('HTTP_X_AUTH_TOKEN', $authToken);
     }
 
+    public function setUserId(int $userId): void
+    {
+        $this->client->setServerParameter('HTTP_X_USER_ID', (string) $userId);
+    }
+
     public function setHeader(string $name, string $value): void
     {
         $parameterName = sprintf('HTTP_%s', preg_replace('/-/', '_', mb_strtoupper($name)));
@@ -83,7 +88,6 @@ abstract class ApiContext extends MockContext
      */
     public function iShouldSeeThatResultContainsFieldWithStringNotEqualsTo(string $jmesPath, string $expected): void
     {
-        $jmesPath = sprintf('result.%s', $jmesPath);
         $actual = $this->findInResponse($jmesPath);
 
         Assert::assertIsString($actual, sprintf('Failed asserting that value at path "%s" is string.', $jmesPath));
@@ -101,7 +105,6 @@ abstract class ApiContext extends MockContext
      */
     public function iShouldSeeThatResultContainsFieldWithStringValue(string $jmesPath, string $expected): void
     {
-        $jmesPath = sprintf('result.%s', $jmesPath);
         $actual = $this->findInResponse($jmesPath);
         Assert::assertIsString($actual, sprintf('Failed asserting that value at path "%s" is string.', $jmesPath));
         Assert::assertEquals(
@@ -116,7 +119,6 @@ abstract class ApiContext extends MockContext
      */
     public function iShouldSeeThatResultContainsFieldWithDatetime(string $jmesPath): void
     {
-        $jmesPath = sprintf('result.%s', $jmesPath);
         $actual = $this->findInResponse($jmesPath);
         Assert::assertTrue(
             is_string($actual) && false !== strtotime($actual),
@@ -129,7 +131,6 @@ abstract class ApiContext extends MockContext
      */
     public function iShouldSeeThatResultContainsFieldWithNull(string $jmesPath): void
     {
-        $jmesPath = sprintf('result.%s', $jmesPath);
         $actual = $this->findInResponse($jmesPath);
         Assert::assertNull($actual, sprintf('Failed asserting that value at path "%s" is null.', $jmesPath));
     }
@@ -139,7 +140,6 @@ abstract class ApiContext extends MockContext
      */
     public function iShouldSeeThatResultContainsFieldWithString(string $jmesPath, string $notEmpty, string $nullable): void
     {
-        $jmesPath = sprintf('result.%s', $jmesPath);
         $actual = $this->findInResponse($jmesPath);
 
         if ($nullable && null === $actual) {
@@ -157,7 +157,6 @@ abstract class ApiContext extends MockContext
      */
     public function iShouldSeeThatResultContainsFieldWithInteger(string $jmesPath, string $nullable, string $op, string $expected): void
     {
-        $jmesPath = sprintf('result.%s', $jmesPath);
         $actual = $this->findInResponse($jmesPath);
 
         if ($nullable && null === $actual) {
@@ -201,7 +200,6 @@ abstract class ApiContext extends MockContext
         string $to,
         string $endIntervalType
     ): void {
-        $jmesPath = sprintf('result.%s', $jmesPath);
         $actual = $this->findInResponse($jmesPath);
 
         if ($nullable && null === $actual) {

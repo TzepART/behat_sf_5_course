@@ -12,10 +12,11 @@ Feature: Login as existing user
         And I should see that response contains subset
         """json
         {
-          "user": 1,
-          "token": "token"
+          "user_id": 1
         }
         """
+        And I should see that result contains "token" with not empty string
+
 
     Scenario: Fail login by incorrect username
         And several users exists in database

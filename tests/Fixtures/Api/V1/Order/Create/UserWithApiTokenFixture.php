@@ -9,9 +9,10 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-final class UserFixture extends Fixture
+final class UserWithApiTokenFixture extends Fixture
 {
     public function __construct(
+        private string $apiToken,
         private UserPasswordHasherInterface $passwordHasher
     ){}
 
@@ -26,7 +27,8 @@ final class UserFixture extends Fixture
 
         $user->setUsername('user_1234')
             ->setPassword($hashedPassword)
-            ->setPlainPassword($plaintextPassword);
+            ->setPlainPassword($plaintextPassword)
+            ->setApiToken($this->apiToken);
 
         $this->addReference(self::class, $user);
 
