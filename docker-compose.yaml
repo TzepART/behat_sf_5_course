@@ -40,10 +40,11 @@ services:
     networks:
       - behat-sf-5-course
   wiremock:
-    image: wiremock/wiremock
+    container_name: project_wiremock
+    image: rodolpheche/wiremock
     restart: on-failure
     ports:
-      - 28080:8080
+      - 8080:8080
     networks:
       - behat-sf-5-course
   hub:

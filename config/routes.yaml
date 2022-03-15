@@ -1,36 +1,26 @@
-homepage:
+app_default:
     path: /
-    controller: App\Controller\MainController::homepage
+    controller: App\Controller\DefaultController::index
+    methods: [GET]
 
-admin:
-    path: /admin
-    controller: App\Controller\MainController::admin
-
-product_search:
-    path: /search
-    controller: App\Controller\MainController::search
-
-product_list:
-    path: /admin/products
-    controller: App\Controller\ProductAdminController::list
-
-product_new:
-    path: /admin/products/new
-    controller: App\Controller\ProductAdminController::new
-
-product_delete:
-    path: /admin/products/delete/{id}
-    controller: App\Controller\ProductAdminController::delete
-
-login:
-    path: /login
+api_login:
+    path: /api/login
     controller: App\Controller\SecurityController::login
+    methods: [POST]
 
-admin_login_check:
-    path: /admin/login_check
-    controller: App\Controller\SecurityController::loginCheck
-
-admin_logout:
-    path: /admin/logout
+api_logout:
+    path: /api/logout
     controller: App\Controller\SecurityController::logout
+    methods: [POST]
+
+
+api_v1_order_create:
+    path: /api/v1/order/create
+    controller: App\Controller\OrderController::create
+    methods: [POST]
+
+api_v1_order_list:
+    path: /api/v1/order/list
+    controller: App\Controller\OrderController::list
+    methods: [POST]
 

@@ -15,14 +15,16 @@ app_up: ## Build and Run project
 app_down: ## Destroy project's containers
 	$(compose_local) down
 
-.PHONY: rebuild_db
-rebuild_db: ## Reload fixtures data
-	$(compose_local) exec app sh -c "php ./bin/console doctrine:fixtures:load --no-interaction"
-
 .PHONY: app_bash
 app_bash: ## Open command-line
 	$(compose_local) exec app bash
 
 .PHONY: behat_run
-behat_run: ## Run behat tests
-	$(compose_local) exec app "./vendor/bin/behat"
+behat_run: ## Start behat tests
+	#$(compose_local) exec -e APP_ENV=test php php -d memory_limit=-1 ./vendor/bin/behat --strict -fprogress
+	$(compose_local) exec app sh -c "php -d memory_limit=-1 ./vendor/bin/behat --strict"
+
+.PHONY: rebuild_db
+rebuild_db: ## Reload fixtures data
+	$(compose_local) exec app sh -c "php ./bin/console doctrine:fixtures:load --no-interaction"
+

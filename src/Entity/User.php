@@ -16,7 +16,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer")
      */
     private int $id;
@@ -44,7 +44,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="datetime")
      */
-    public \DateTime $createdAt;
+    private \DateTime $createdAt;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $apiToken = null;
 
     public function __construct()
     {
@@ -118,6 +123,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getCreatedAt(): \Datetime
     {
         return $this->createdAt;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(?string $apiToken): self
+    {
+        $this->apiToken = $apiToken;
+        return $this;
     }
 
     public function __toString(): string

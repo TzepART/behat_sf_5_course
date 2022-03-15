@@ -1,4 +1,5 @@
 security:
+    enable_authenticator_manager: true
     encoders:
         App\Entity\User: bcrypt
 
@@ -16,12 +17,17 @@ security:
 
     firewalls:
         main:
-            anonymous: true
-            form_login:
-                login_path: /login
-                check_path: /admin/login_check
+            pattern: ^/api/v1
+            stateless: true
+            custom_authenticators:
+                - App\Security\ApiKeyAuthenticator
+        app:
+            json_login:
+                check_path: api_login
             logout:
-                path: /admin/logout
+                path: api_logout
+                target: app_default
+
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+#        - { path: ^/api/v1, roles: [IS_AUTHENTICATED] }
 

@@ -1,41 +1,19 @@
 default:
     suites:
-        default:
+        Api/Auth:
             contexts:
-                - App\Tests\Behat\FeatureContext
-                - Behat\MinkExtension\Context\MinkContext
-            paths: [ '%paths.base%/features/web' ]
-        js:
+                - App\Tests\Behat\Api\Auth\ApiContext
+                - App\Tests\Behat\Api\Auth\Login\LoginContext
+            paths: [ '%paths.base%/features/api/auth' ]
+        Api/V1/Order:
             contexts:
-                - App\Tests\Behat\FeatureContext
-                - Behat\MinkExtension\Context\MinkContext
-            paths: [ '%paths.base%/features/js' ]
-        demo:
-            contexts:
-                - App\Tests\Behat\DemoContext
-            paths: [ '%paths.base%/features/demo' ]
-        commands:
-            contexts:
-                - App\Tests\Behat\CommandLineProcessContext
-            paths: [ '%paths.base%/features/commands' ]
+                - App\Tests\Behat\Api\V1\ApiContext
+                - App\Tests\Behat\Api\V1\Order\OrderContext
+            paths: [ '%paths.base%/features/api/v1/order' ]
 
     extensions:
         FriendsOfBehat\SymfonyExtension:
             kernel:
-                class: App\Kernel
                 environment: test
                 debug: false
-        Behat\MinkExtension:
-            # adapt this to whatever the real URL is to your local site
-            base_url: http://app:8080/
-            goutte: ~
-            default_session: symfony
-            javascript_session: selenium2
-            browser_name: chrome
-            symfony: ~
-            selenium2:
-                wd_host: http://hub:4444/wd/hub
-                capabilities:
-                    version: ''
-
-
+            bootstrap: tests/bootstrap_behat.php

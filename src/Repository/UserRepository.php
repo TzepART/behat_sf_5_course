@@ -18,6 +18,18 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function updateApiToken(int $userIdentifier, ?string $apiToken): void
+    {
+        $this->_em->createQueryBuilder()
+            ->update(User::class, 'u')
+            ->set('u.apiToken', ':apiToken')
+            ->where('u.id = :userIdentifier')
+            ->setParameter('apiToken', $apiToken)
+            ->setParameter('userIdentifier', $userIdentifier)
+            ->getQuery()
+            ->execute();
+    }
+
     public function loadUserByUsername($username)
     {
         $user = $this->findOneBy(['username' => $username]);

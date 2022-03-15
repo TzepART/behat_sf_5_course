@@ -1,0 +1,210 @@
+{
+    "android_tv": [
+        {
+            "uri": "/api/users/passMediaId_user/jwt_token/",
+            "method": "GET",
+            "request_headers": {
+                "api-key": "pm_secret_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "passMedia_JWT_access_token",
+                "refresh": "passMedia_JWT_refresh_token"
+            }
+        },
+        {
+            "uri": "/api/accounts/jwt/",
+            "method": "POST",
+            "request_headers": {
+                "Authorization": "JWTBearer passMedia_JWT_access_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "UMA_JWT_access_token",
+                "refresh": "UMA_JWT_refresh_token"
+            }
+        }
+    ],
+    "apple_tv": [
+        {
+            "uri": "/api/users/passMediaId_user/jwt_token/",
+            "method": "GET",
+            "request_headers": {
+                "api-key": "pm_secret_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "passMedia_JWT_access_token",
+                "refresh": "passMedia_JWT_refresh_token"
+            }
+        },
+        {
+            "uri": "/api/accounts/jwt/",
+            "method": "POST",
+            "request_headers": {
+                "Authorization": "JWTBearer passMedia_JWT_access_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "UMA_JWT_access_token",
+                "refresh": "UMA_JWT_refresh_token"
+            }
+        }
+    ],
+    "smart_tv": [
+        {
+            "uri": "/api/users/passMediaId_user/jwt_token/",
+            "method": "GET",
+            "request_headers": {
+                "api-key": "pm_secret_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "passMedia_JWT_access_token",
+                "refresh": "passMedia_JWT_refresh_token"
+            }
+        },
+        {
+            "uri": "/api/accounts/jwt/",
+            "method": "POST",
+            "request_headers": {
+                "Authorization": "JWTBearer passMedia_JWT_access_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "UMA_JWT_access_token",
+                "refresh": "UMA_JWT_refresh_token"
+            }
+        }
+    ],
+    "smart_tv_lg": [
+        {
+            "uri": "/api/users/passMediaId_user/jwt_token/",
+            "method": "GET",
+            "request_headers": {
+                "api-key": "pm_secret_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "passMedia_JWT_access_token",
+                "refresh": "passMedia_JWT_refresh_token"
+            }
+        },
+        {
+            "uri": "/api/accounts/jwt/",
+            "method": "POST",
+            "request_headers": {
+                "Authorization": "JWTBearer passMedia_JWT_access_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "UMA_JWT_access_token",
+                "refresh": "UMA_JWT_refresh_token"
+            }
+        }
+    ],
+    "smart_tv_samsung": [
+        {
+            "uri": "/api/users/passMediaId_user/jwt_token/",
+            "method": "GET",
+            "request_headers": {
+                "api-key": "pm_secret_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "passMedia_JWT_access_token",
+                "refresh": "passMedia_JWT_refresh_token"
+            }
+        },
+        {
+            "uri": "/api/accounts/jwt/",
+            "method": "POST",
+            "request_headers": {
+                "Authorization": "JWTBearer passMedia_JWT_access_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "UMA_JWT_access_token",
+                "refresh": "UMA_JWT_refresh_token"
+            }
+        }
+    ],
+    "smart_tv_hisense": [
+        {
+            "uri": "/api/users/passMediaId_user/jwt_token/",
+            "method": "GET",
+            "request_headers": {
+                "api-key": "pm_secret_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "passMedia_JWT_access_token",
+                "refresh": "passMedia_JWT_refresh_token"
+            }
+        },
+        {
+            "uri": "/api/accounts/jwt/",
+            "method": "POST",
+            "request_headers": {
+                "Authorization": "JWTBearer passMedia_JWT_access_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "UMA_JWT_access_token",
+                "refresh": "UMA_JWT_refresh_token"
+            }
+        }
+    ],
+    "smart_tv_philips": [
+        {
+            "uri": "/api/users/passMediaId_user/jwt_token/",
+            "method": "GET",
+            "request_headers": {
+                "api-key": "pm_secret_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "passMedia_JWT_access_token",
+                "refresh": "passMedia_JWT_refresh_token"
+            }
+        },
+        {
+            "uri": "/api/accounts/jwt/",
+            "method": "POST",
+            "request_headers": {
+                "Authorization": "JWTBearer passMedia_JWT_access_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "UMA_JWT_access_token",
+                "refresh": "UMA_JWT_refresh_token"
+            }
+        }
+    ],
+    "huawei_android_tv": [
+        {
+            "uri": "/api/users/passMediaId_user/jwt_token/",
+            "method": "GET",
+            "request_headers": {
+                "api-key": "pm_secret_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "passMedia_JWT_access_token",
+                "refresh": "passMedia_JWT_refresh_token"
+            }
+        },
+        {
+            "uri": "/api/accounts/jwt/",
+            "method": "POST",
+            "request_headers": {
+                "Authorization": "JWTBearer passMedia_JWT_access_token"
+            },
+            "response_content_type": "application/json",
+            "response_body": {
+                "access": "UMA_JWT_access_token",
+                "refresh": "UMA_JWT_refresh_token"
+            }
+        }
+    ]
+}

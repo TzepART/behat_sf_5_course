@@ -9,37 +9,39 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class DbContext implements Context
 {
-    private ?Loader $loader = null;
-    private ORMExecutor $executor;
+    protected KernelInterface $kernel;
+    protected EntityManager $em;
+    protected ?Loader $loader = null;
+    protected ORMPurger $purger;
+    protected ORMExecutor $executor;
 
-    public function __construct(
-        private EntityManagerInterface $em,
-    ){}
+    public function __construct(KernelInterface $kernel)
+    {
+        $this->kernel = $kernel;
+    }
 
     /**
      * @BeforeScenario
      */
     public function prepareDatabase(): void
     {
-        $purger = new ORMPurger($this->em);
-        $purger->setPurgeMode(ORMPurger::PURGE_MODE_TRUNCATE);
-        $this->executor = new ORMExecutor($this->em, $purger);
+        /** @phpstan-ignore-next-line */
+        $this->em = $this->kernel->getContainer()->get('doctrine')->getManager();
+
+        $this->purger = new ORMPurger($this->em);
+        $this->purger->setPurgeMode(ORMPurger::PURGE_MODE_DELETE);
+
+        $this->executor = new ORMExecutor($this->em, $this->purger);
 
         $this->em->beginTransaction();
-    }
-
-    public function rebuildSchema(): void
-    {
-        $metadatas = $this->em->getMetadataFactory()->getAllMetadata();
-        $tool = new SchemaTool($this->em);
-        $tool->dropSchema($metadatas);
-        $tool->updateSchema($metadatas, false);
     }
 
     /**
@@ -65,7 +67,7 @@ class DbContext implements Context
     /**
      * @param string|AbstractFixture $fixture
      */
-    public function addFixture(string|AbstractFixture $fixture): self
+    public function addFixture($fixture): self
     {
         if (null === $this->loader) {
             $this->loader = new Loader();
@@ -115,5 +117,10 @@ class DbContext implements Context
             json_encode($filter, JSON_UNESCAPED_UNICODE)
         );
         Assert::assertNull($entity, $foundMessage);
+    }
+
+    public function getUserPasswordHasher(): UserPasswordHasherInterface
+    {
+        return $this->kernel->getContainer()->get('security.command.user_password_hash');
     }
 }
