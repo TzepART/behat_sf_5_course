@@ -25,20 +25,20 @@ final class OrderContext extends ApiAwareContext
     }
 
     /**
-     * @Given /^User exists in database with apiToken "([^"]*)"$/
+     * @Given /^User exists in database with apiToken "([^"]*)" and username "([^"]*)"$/
      */
-    public function userWithApiTokenExistsInDatabase(string $apiToken): void
+    public function userWithApiTokenExistsInDatabase(string $apiToken, string $username): void
     {
         $this->apiContext->addFixture(
-            new UserWithApiTokenFixture($apiToken, $this->apiContext->getUserPasswordHasher())
+            new UserWithApiTokenFixture($apiToken, $username, $this->apiContext->getUserPasswordHasher())
         );
         $this->apiContext->fixturesLoad();
     }
 
     /**
-     * @When /^I make request "([A-Z]+)" "([^"]*)" with auth_token "([^"]*)" and user_id "([0-9]*)" with body$/
+     * @When /^I make request "([A-Z]+)" "([^"]*)" with auth_token "([^"]*)" and user_id "([^"]*)" with body$/
      */
-    public function iMakeRequestWithAuthTokenUserIdAndBody(string $method, string $uri, string $apiToken, int $userId, PyStringNode $body): void
+    public function iMakeRequestWithAuthTokenUserIdAndBody(string $method, string $uri, string $apiToken, string $userId, PyStringNode $body): void
     {
         $this->apiContext->setAuthToken($apiToken);
         $this->apiContext->setUserId($userId);

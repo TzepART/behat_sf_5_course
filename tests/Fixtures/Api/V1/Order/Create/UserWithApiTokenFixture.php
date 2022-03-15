@@ -13,6 +13,7 @@ final class UserWithApiTokenFixture extends Fixture
 {
     public function __construct(
         private string $apiToken,
+        private string $username,
         private UserPasswordHasherInterface $passwordHasher
     ){}
 
@@ -25,7 +26,7 @@ final class UserWithApiTokenFixture extends Fixture
             $plaintextPassword
         );
 
-        $user->setUsername('user_1234')
+        $user->setUsername($this->username)
             ->setPassword($hashedPassword)
             ->setPlainPassword($plaintextPassword)
             ->setApiToken($this->apiToken);

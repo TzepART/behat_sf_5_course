@@ -45,9 +45,9 @@ abstract class ApiContext extends MockContext
         $this->client->setServerParameter('HTTP_X_AUTH_TOKEN', $authToken);
     }
 
-    public function setUserId(int $userId): void
+    public function setUserId(string $userId): void
     {
-        $this->client->setServerParameter('HTTP_X_USER_ID', (string) $userId);
+        $this->client->setServerParameter('HTTP_X_USER_ID', $userId);
     }
 
     public function setHeader(string $name, string $value): void

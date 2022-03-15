@@ -21,7 +21,8 @@ app_bash: ## Open command-line
 
 .PHONY: behat_run
 behat_run: ## Start behat tests
-	$(compose_local) exec -e APP_ENV=test php php -d memory_limit=-1 ./vendor/bin/behat --strict -fprogress
+	#$(compose_local) exec -e APP_ENV=test php php -d memory_limit=-1 ./vendor/bin/behat --strict -fprogress
+	$(compose_local) exec app sh -c "php -d memory_limit=-1 ./vendor/bin/behat --strict"
 
 .PHONY: rebuild_db
 rebuild_db: ## Reload fixtures data
