@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Order;
@@ -29,7 +31,7 @@ class OrderRepository extends ServiceEntityRepository
     {
         $this->_em->persist($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->_em->flush($entity);
         }
     }
 
@@ -41,7 +43,7 @@ class OrderRepository extends ServiceEntityRepository
     {
         $this->_em->remove($entity);
         if ($flush) {
-            $this->_em->flush();
+            $this->_em->flush($entity);
         }
     }
 
