@@ -10,7 +10,7 @@
 make app_up
 ```
 
-3. You'll find the site at http://localhost:8080.
+3. You'll find the site at http://localhost:18080.
 
 You can login with:
 
